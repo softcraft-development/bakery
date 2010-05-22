@@ -13,4 +13,9 @@ class HomeControllerTest < ActionController::TestCase
   #     should_not_set_the_flash      
   #   end    
   # end
+  
+  def test_The_Home_page_should_respond_with_success
+    get(:show)
+    assert_response :success
+  end
 end
