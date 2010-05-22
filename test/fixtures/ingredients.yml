@@ -1,0 +1,9 @@
+one:
+  name: MyString
+  sort_order: 1.5
+  amount: MyString
+
+two:
+  name: MyString
+  sort_order: 1.5
+  amount: MyString

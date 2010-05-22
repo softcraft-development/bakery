@@ -1,0 +1,16 @@
+<%= form_for @ingredient do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :sort_order %><br />
+    <%= f.text_field :sort_order %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

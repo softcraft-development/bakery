@@ -1,4 +1,6 @@
 Bakery::Application.routes.draw do |map|
+  resources :ingredients
+
   resources :recipes
 
   # The priority is based upon order of creation:
