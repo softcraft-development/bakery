@@ -23,6 +23,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # end
 
 gem "haml"
+gem "ruby-units"
 
 group :test do
   gem "redgreen"
