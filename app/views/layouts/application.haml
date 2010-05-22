@@ -1,12 +1,13 @@
 !!!
+- site_name = "SoftCraft's Bakery Project"
 %html
   %head
     %title<
-      = "#{@page_title ? @page_title + ' : ' : '' }SoftCraft's Bakery Project"
+      = "#{@page_title ? @page_title + ' : ' + site_name : site_name }"
     = stylesheet_link_tag :all
     = javascript_include_tag :defaults
     = csrf_meta_tag
   %body
     %h1
-      = "#{@page_title ? @page_title : 'SoftCraft\'s Bakery Project' }"
+      = "#{@page_title ? @page_title : site_name }"
     = yield
