@@ -28,6 +28,10 @@ group :test do
   gem "redgreen"
 end
 
+group :development do
+  gem "nifty-generators"
+end
+
 # TODO: reenable shoulda once it's working with Rails 3
 # group :test do
 #     gem "shoulda", :git => "http://github.com/thoughtbot/shoulda.git", :branch => "rails3"
