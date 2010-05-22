@@ -27,6 +27,10 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem "haml"
 
+group :test do
+  gem "redgreen"
+end
+
 # TODO: reenable shoulda once it's working with Rails 3
 # group :test do
 #     gem "shoulda", :git => "http://github.com/thoughtbot/shoulda.git", :branch => "rails3"
