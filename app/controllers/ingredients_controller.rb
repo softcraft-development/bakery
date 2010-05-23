@@ -8,11 +8,14 @@ class IngredientsController < ApplicationController
   end
   
   def new
+    @recipe = Recipe.find(params[:recipe_id])
     @ingredient = Ingredient.new
   end
   
   def create
+    @recipe = Recipe.find(params[:recipe_id])
     @ingredient = Ingredient.new(params[:ingredient])
+    @ingredient.recipe = @recipe
     if @ingredient.save
       flash[:notice] = "Successfully created ingredient."
       redirect_to @ingredient
@@ -39,6 +42,6 @@ class IngredientsController < ApplicationController
     @ingredient = Ingredient.find(params[:id])
     @ingredient.destroy
     flash[:notice] = "Successfully destroyed ingredient."
-    redirect_to ingredients_url
+    redirect_to recipe_ingredients_url(@ingredient.recipe)
   end
 end

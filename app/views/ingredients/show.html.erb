@@ -16,5 +16,5 @@
 <p>
   <%= link_to "Edit", edit_ingredient_path(@ingredient) %> |
   <%= link_to "Destroy", @ingredient, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", ingredients_path %>
+  <%= link_to "View All", recipe_ingredients_path(@ingredient.recipe) %>
 </p>

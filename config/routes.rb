@@ -1,7 +1,8 @@
 Bakery::Application.routes.draw do |map|
-  resources :ingredients
-
-  resources :recipes
+  resources :recipes do
+    resources :ingredients, :only => [:index, :new, :create]    
+  end
+  resources :ingredients, :only => [:show, :edit, :update, :destroy]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
