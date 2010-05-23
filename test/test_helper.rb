@@ -1,15 +1,15 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'factory_girl'
 # TODO: Reenable for Shoulda on Rails 3
 # require "shoulda"
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
-  fixtures :all
+  Factory.define :recipe do |r|
+    r.name "A Factory Recipe"
+  end
 
-  # Add more helper methods to be used by all tests here...
+  Factory.define :ingredient do |i|
+  end
 end
