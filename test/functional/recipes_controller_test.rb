@@ -36,7 +36,6 @@ class RecipesControllerTest < ActionController::TestCase
   def test_update_invalid
     recipe = Factory.create(:recipe)
     Recipe.any_instance.stubs(:valid?).returns(false)
-    puts "Recipe valid: #{recipe.valid?}"
     put :update, :id => recipe
     assert_template 'edit'
   end
