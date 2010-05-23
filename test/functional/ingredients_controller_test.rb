@@ -7,9 +7,18 @@ class IngredientsControllerTest < ActionController::TestCase
   end
   
   def test_show
-    get :show, :id => Ingredient.first
+    ingredient = Factory.create(:ingredient)
+    # get :show, :recipe => ingredient.recipe, :id => ingredient
+    get :show, :id => ingredient
     assert_template 'show'
   end
+  
+  # TODO: Decide whether we want to nest ingredient under recipe
+  # def test_show_without_recipe
+  #   ingredient = Factory.create(:ingredient)
+  #   get :show, :id => ingredient
+  #   assert_response :error
+  # end
   
   def test_new
     get :new
