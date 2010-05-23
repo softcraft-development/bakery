@@ -13,5 +13,6 @@ class ActiveSupport::TestCase
   Factory.define :ingredient do |i|
     i.association :recipe, :factory => :recipe
     i.name "A Factory ingredient"
+    i.amount "1 cup"
   end
 end
