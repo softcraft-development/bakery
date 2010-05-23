@@ -12,5 +12,6 @@ class ActiveSupport::TestCase
 
   Factory.define :ingredient do |i|
     i.association :recipe, :factory => :recipe
+    i.name "A Factory ingredient"
   end
 end
