@@ -32,4 +32,13 @@ class IngredientTest < ActiveSupport::TestCase
   def test_sort_order_is_a_floating_point_number
     assert Factory.build(:ingredient, :sort_order => -1.5).valid?
   end
+  
+  def test_default_sort_order
+    recipe = Factory.create(:recipe)
+    a = Factory.create(:ingredient, :recipe => recipe, :sort_order => 2 )
+    b = Factory.create(:ingredient, :recipe => recipe, :sort_order => 1 )
+    c = Factory.create(:ingredient, :recipe => recipe, :sort_order => 1.5 )
+    assert_equal [b,c,a], recipe.ingredients, 
+      recipe.ingredients.inject("Recipe ingredients are not in correct sort order: ") { |result, x| result +=  "#{x.sort_order}, " }
+  end
 end

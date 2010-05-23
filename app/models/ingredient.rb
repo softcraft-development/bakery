@@ -5,6 +5,6 @@ class Ingredient < ActiveRecord::Base
   validates :name, :presence => true
   validates :amount, :presence => true, :unit => true
   validates :sort_order, :presence => true, :numericality => true
-  
+  default_scope :order => "sort_order"
 end
 
