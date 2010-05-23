@@ -13,7 +13,7 @@ ActiveRecord::Schema.define(:version => 20100522232247) do
 
   create_table "ingredients", :force => true do |t|
     t.string   "name"
-    t.float    "sort_order"
+    t.float    "sort_order", :default => 0.0
     t.string   "amount"
     t.datetime "created_at"
     t.datetime "updated_at"

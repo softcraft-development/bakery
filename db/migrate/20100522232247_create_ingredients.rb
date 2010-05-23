@@ -2,7 +2,7 @@ class CreateIngredients < ActiveRecord::Migration
   def self.up
     create_table :ingredients do |t|
       t.string :name
-      t.float :sort_order
+      t.float :sort_order, :default => 0
       t.string :amount
       t.timestamps
       t.references :recipe
