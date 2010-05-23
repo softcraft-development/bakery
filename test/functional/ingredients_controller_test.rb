@@ -7,17 +7,9 @@ class IngredientsControllerTest < ActionController::TestCase
   end
   
   def test_show
-    # get :show, :recipe => ingredient.recipe, :id => ingredient
-    get :show, :id => Ingredient.first
+    get :show, :id => Factory.create(:ingredient)
     assert_template 'show'
   end
-  
-  # TODO: Decide whether we want to nest ingredient under recipe
-  # def test_show_without_recipe
-  #   ingredient = Factory.create(:ingredient)
-  #   get :show, :id => ingredient
-  #   assert_response :error
-  # end
   
   def test_new
     get :new, :recipe_id => Factory.create(:recipe).id
@@ -37,24 +29,26 @@ class IngredientsControllerTest < ActionController::TestCase
   end
   
   def test_edit
-    get :edit, :id => Ingredient.first
+    get :edit, :id => Factory.create(:ingredient)
     assert_template 'edit'
   end
   
   def test_update_invalid
+    ingredient = Factory.create(:ingredient)
     Ingredient.any_instance.stubs(:valid?).returns(false)
-    put :update, :id => Ingredient.first
+    put :update, :id => ingredient
     assert_template 'edit'
   end
   
   def test_update_valid
+    ingredient = Factory.create(:ingredient)
     Ingredient.any_instance.stubs(:valid?).returns(true)
-    put :update, :id => Ingredient.first
+    put :update, :id => ingredient
     assert_redirected_to ingredient_url(assigns(:ingredient))
   end
   
   def test_destroy
-    ingredient = Ingredient.first
+    ingredient = Factory.create(:ingredient)
     delete :destroy, :id => ingredient
     assert_redirected_to recipe_ingredients_url(ingredient.recipe)
     assert !Ingredient.exists?(ingredient.id)
