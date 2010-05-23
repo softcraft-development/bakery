@@ -28,8 +28,8 @@ class RecipesControllerTest < ActionController::TestCase
   end
   
   def test_create_valid
-    Recipe.any_instance.stubs(:valid?).returns(true)
-    post :create
+    recipe = Factory.build(:recipe)
+    post :create, :recipe => { :name => recipe.name }
     assert_redirected_to recipe_url(assigns(:recipe))
   end
   
