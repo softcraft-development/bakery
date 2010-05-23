@@ -17,4 +17,15 @@ class RecipeTest < ActiveSupport::TestCase
     recipe.ingredients << ingredient
     assert Recipe.find(recipe.id).ingredients.include?(Ingredient.find(ingredient.id))
   end
+  
+  def test_to_param_is_friendly_id
+    recipe = Factory.create(:recipe)
+    assert_equal recipe.friendly_id, recipe.to_param
+  end
+  
+  def test_find_by_friendly_id
+    recipe = Factory.create(:recipe)
+    found = Recipe.find(recipe.to_param)
+    assert_equal recipe, found
+  end
 end

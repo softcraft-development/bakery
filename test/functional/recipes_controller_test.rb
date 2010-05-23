@@ -11,6 +11,11 @@ class RecipesControllerTest < ActionController::TestCase
     assert_template 'show'
   end
   
+  def test_show_by_friendly_id
+    get :show, :id => Factory.create(:recipe).to_param
+    assert_template 'show'
+  end
+  
   def test_new
     get :new
     assert_template 'new'
