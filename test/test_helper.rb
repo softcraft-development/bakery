@@ -11,5 +11,6 @@ class ActiveSupport::TestCase
   end
 
   Factory.define :ingredient do |i|
+    i.association :recipe, :factory => :recipe
   end
 end
