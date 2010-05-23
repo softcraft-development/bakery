@@ -1,0 +1,18 @@
+- title "Ingredient"
+%p
+  %strong Name:
+  = @ingredient.name
+%p
+  %strong Recipe:
+  = link_to @ingredient.recipe.name, @ingredient.recipe
+%p
+  %strong Sort Order:
+  = @ingredient.sort_order
+%p
+  %strong Amount:
+  = @ingredient.amount
+%p
+  = link_to "Edit", edit_ingredient_path(@ingredient)
+  |
+  \#{link_to "Destroy", @ingredient, :confirm => 'Are you sure?', :method => :delete} |
+  \#{link_to "View All", recipe_ingredients_path(@ingredient.recipe)}

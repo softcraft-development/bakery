@@ -1,0 +1,16 @@
+- title "Ingredients"
+%table
+  %tr
+    %th Name
+    %th Sort Order
+    %th Amount
+  - for ingredient in @ingredients
+  %tr
+    %td= ingredient.name
+    %td= ingredient.sort_order
+    %td= ingredient.amount
+    %td= link_to "Show", ingredient
+    %td= link_to "Edit", edit_ingredient_path(ingredient)
+    %td= link_to "Destroy", ingredient, :confirm => 'Are you sure?', :method => :delete
+  </haml:block>
+%p= link_to "New Ingredient", new_recipe_ingredient_path(@recipe)
