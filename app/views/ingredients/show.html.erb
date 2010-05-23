@@ -5,6 +5,11 @@
   <%= @ingredient.name %>
 </p>
 <p>
+  <strong>Recipe:</strong>
+  <%= link_to @ingredient.recipe.name, @ingredient.recipe %>
+</p>
+
+<p>
   <strong>Sort Order:</strong>
   <%= @ingredient.sort_order %>
 </p>
