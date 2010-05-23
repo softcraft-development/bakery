@@ -7,9 +7,8 @@ class IngredientsControllerTest < ActionController::TestCase
   end
   
   def test_show
-    ingredient = Factory.create(:ingredient)
     # get :show, :recipe => ingredient.recipe, :id => ingredient
-    get :show, :id => ingredient
+    get :show, :id => Ingredient.first
     assert_template 'show'
   end
   
