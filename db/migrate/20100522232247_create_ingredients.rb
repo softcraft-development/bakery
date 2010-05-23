@@ -5,7 +5,7 @@ class CreateIngredients < ActiveRecord::Migration
       t.float :sort_order
       t.string :amount
       t.timestamps
-      t.references :recipes
+      t.references :recipe
     end
   end
   

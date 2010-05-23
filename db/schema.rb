@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(:version => 20100522232247) do
     t.string   "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "recipes_id"
+    t.integer  "recipe_id"
   end
 
   create_table "recipes", :force => true do |t|
