@@ -7,7 +7,7 @@ class RecipesControllerTest < ActionController::TestCase
   end
   
   def test_show
-    get :show, :id => Recipe.first
+    get :show, :id => Factory.create(:recipe)
     assert_template 'show'
   end
   
@@ -29,24 +29,26 @@ class RecipesControllerTest < ActionController::TestCase
   end
   
   def test_edit
-    get :edit, :id => Recipe.first
+    get :edit, :id => Factory.create(:recipe)
     assert_template 'edit'
   end
   
   def test_update_invalid
+    recipe = Factory.create(:recipe)
     Recipe.any_instance.stubs(:valid?).returns(false)
-    put :update, :id => Recipe.first
+    puts "Recipe valid: #{recipe.valid?}"
+    put :update, :id => recipe
     assert_template 'edit'
   end
   
   def test_update_valid
     Recipe.any_instance.stubs(:valid?).returns(true)
-    put :update, :id => Recipe.first
+    put :update, :id => Factory.create(:recipe)
     assert_redirected_to recipe_url(assigns(:recipe))
   end
   
   def test_destroy
-    recipe = Recipe.first
+    recipe = Factory.create(:recipe)
     delete :destroy, :id => recipe
     assert_redirected_to recipes_url
     assert !Recipe.exists?(recipe.id)
