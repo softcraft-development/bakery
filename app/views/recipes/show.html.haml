@@ -4,6 +4,16 @@
   %strong Name:
   = @recipe.name
 
+.ingredients
+  %h2
+    Ingredients:
+  %ul
+    -for ingredient in @recipe.ingredients
+      %li
+        %span.amount
+          = ingredient.amount
+        %span.name
+          = ingredient.name
 %p
   = link_to "Edit", edit_recipe_path(@recipe)
   |
