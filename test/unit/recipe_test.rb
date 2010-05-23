@@ -28,4 +28,12 @@ class RecipeTest < ActiveSupport::TestCase
     found = Recipe.find(recipe.to_param)
     assert_equal recipe, found
   end
+  
+  def test_destroy_ingredients
+    recipe = Factory.create(:recipe)
+    ingredient = Factory.create(:ingredient, :recipe => recipe)
+    assert Ingredient.exists? ingredient.id
+    recipe.destroy
+    assert !Ingredient.exists?(ingredient.id)
+  end
 end
