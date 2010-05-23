@@ -1,5 +1,9 @@
 class Ingredient < ActiveRecord::Base
   attr_accessible :name, :sort_order, :amount
   belongs_to :recipe  
-  validates_presence_of :recipe, :name, :amount
+  validates :recipe, :presence => true
+  validates :name, :presence => true
+  validates :amount, :presence => true, :unit => true
+  
 end
+

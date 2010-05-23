@@ -16,4 +16,8 @@ class IngredientTest < ActiveSupport::TestCase
   def test_amount_required
     assert !Factory.build(:ingredient, :amount => nil).valid?
   end  
+
+  def test_amount_is_a_unit
+    assert !Factory.build(:ingredient, :amount => "this is not a valid amount").valid?
+  end  
 end
