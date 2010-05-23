@@ -30,6 +30,7 @@ group :test do
   # TODO: reenable shoulda once it's working with Rails 3
   # gem "shoulda", :git => "http://github.com/thoughtbot/shoulda.git", :branch => "rails3"
   gem "mocha"
+  gem "factory_girl", :git => "http://github.com/thoughtbot/factory_girl.git", :branch => "rails3"
 end
 
 group :development do
