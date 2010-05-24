@@ -61,6 +61,25 @@ class RecipesControllerTest < ActionController::TestCase
     assert_redirected_to recipe_url(assigns(:recipe))
   end
   
+  def test_update_nested
+    ingredient = Factory.create(:ingredient)
+    put :update, 
+      :id=>ingredient.recipe.friendly_id,
+      :recipe=> { 
+        :name=> ingredient.recipe.name,
+        :ingredients_attributes=>{
+            "0"=>{
+                :name=>ingredient.name,
+                :amount=>ingredient.amount,
+                :"id"=>ingredient.id,
+                :_destroy=>"1"
+            }
+        }
+      }
+    recipe = Recipe.find(ingredient.recipe.id)
+    assert_equal 0, recipe.ingredients.size
+  end
+  
   def test_destroy
     recipe = Factory.create(:recipe)
     delete :destroy, :id => recipe
