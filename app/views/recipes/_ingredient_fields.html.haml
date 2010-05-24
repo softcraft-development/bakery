@@ -1,0 +1,8 @@
+.ingredient
+  %span.amount
+    = f.label :amount
+    = f.text_field :amount
+  %span.name
+    = f.label :name
+    = f.text_field :name
+  = link_to_remove_fields "remove", f
