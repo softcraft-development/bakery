@@ -28,8 +28,8 @@ gem "friendly_id"
 
 group :test do
   gem "ZenTest"
-  gem "autotest-fsevent"
-  gem "autotest-growl"
+  # gem "autotest-fsevent"
+  # gem "autotest-growl"
   gem "autotest-rails"
   gem "redgreen"
   # TODO: reenable shoulda once it's working with Rails 3
