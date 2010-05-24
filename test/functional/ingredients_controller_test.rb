@@ -27,7 +27,6 @@ class IngredientsControllerTest < ActionController::TestCase
     #TODO: reenable this once we can figure out how to remove any_instance
     # Ingredient.any_instance.stubs(:valid?).returns(true)
     target = Factory.build(:ingredient)
-    puts "Target: #{target.to_s}"
     post :create, 
       :recipe_id => Factory.create(:recipe).id, 
       :ingredient => {:name => target.name, :amount => target.amount}
