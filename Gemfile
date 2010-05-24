@@ -25,7 +25,6 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem "haml"
 gem "ruby-units"
 gem "friendly_id"
-gem "hassle"
 
 group :test do
   gem "ZenTest"
