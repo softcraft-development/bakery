@@ -12,5 +12,8 @@
       .name
         = i.label :name
         = i.text_field :name
+      .remove
+        = i.check_box :_destroy
+        = i.label :_destroy, "Remove"
   %p
     = f.submit
