@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'factory_girl'
+require 'pp'
 # TODO: Reenable for Shoulda on Rails 3
 # require "shoulda"
 
