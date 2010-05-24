@@ -4,5 +4,13 @@
     = f.label :name
     %br
     = f.text_field :name
+  .ingredients
+    = f.fields_for :ingredients do |i|
+      .amount
+        = i.label :amount
+        = i.text_field :amount
+      .name
+        = i.label :name
+        = i.text_field :name
   %p
     = f.submit

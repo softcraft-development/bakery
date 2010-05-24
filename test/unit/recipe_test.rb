@@ -36,4 +36,18 @@ class RecipeTest < ActiveSupport::TestCase
     recipe.destroy
     assert !Ingredient.exists?(ingredient.id)
   end
+  
+  def test_accept_nested_ingredients
+    params = { 
+      :name => "test_accept_nested_ingredients",
+      :ingredients_attributes => [
+        {:amount => "1 pound", :name => "flour"},
+        {:amount => "1 pound", :name => "sugar"},
+        {:amount => "1 pound", :name => "eggs"},
+        {:amount => "1 pound", :name => "butter"},
+      ]
+    }
+    recipe = Recipe.create(params)
+    assert_equal 4, recipe.ingredients.size
+  end
 end

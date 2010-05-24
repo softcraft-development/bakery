@@ -1,5 +1,6 @@
 class Ingredient < ActiveRecord::Base
-  attr_accessible :name, :sort_order, :amount
+  # FIXME: attr_accessible conflicts with nested model attributes
+  # attr_accessible :name, :sort_order, :amount
   belongs_to :recipe  
   validates :recipe, :presence => true
   validates :name, :presence => true
