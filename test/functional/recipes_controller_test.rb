@@ -37,7 +37,8 @@ class RecipesControllerTest < ActionController::TestCase
   def test_create_redirects_to_show
     recipe = Factory.build(:recipe)
     post :create, :recipe => { :name => recipe.name }
-    assert_redirected_to recipe_url(assigned) if assigns(:recipe).id != nil
+    assigned = assigns(:recipe)
+    assert_redirected_to recipe_url(assigned) if assigned.id != nil
   end
   
   def test_edit
