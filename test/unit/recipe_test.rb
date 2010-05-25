@@ -10,7 +10,15 @@ class RecipeTest < ActiveSupport::TestCase
     assert !Recipe.new.valid?
   end
 
-  def test_add_ingredients
+  def test_add_ingredients_without_intermediate_save
+    recipe = Factory.build(:recipe)
+    ingredient = Factory.build(:ingredient, :recipe => nil)
+    recipe.ingredients << ingredient
+    recipe.save!
+    assert Recipe.find(recipe.id).ingredients.include?(Ingredient.find(ingredient.id))
+  end
+
+  def test_add_ingredients_with_intermediate_save
     recipe = Factory.build(:recipe)
     recipe.save!
     ingredient = Factory.build(:ingredient, :recipe => nil)

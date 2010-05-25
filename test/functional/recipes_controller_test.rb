@@ -41,6 +41,21 @@ class RecipesControllerTest < ActionController::TestCase
     assert_redirected_to recipe_url(assigned) if assigned.id != nil
   end
   
+  def test_create_with_ingredients
+    ingredient = Factory.build(:ingredient)
+    post :create, :recipe=> { 
+      :name=> ingredient.recipe.name,
+      :ingredients_attributes=>{
+          "0"=>{
+              :name=>ingredient.name,
+              :amount=>ingredient.amount
+          }
+      }
+    }
+    recipe = assigns(:recipe)
+    assert_not_nil recipe.ingredients[0].id
+  end
+  
   def test_edit
     get :edit, :id => Factory.create(:recipe)
     assert_template 'edit'
