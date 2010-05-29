@@ -8,7 +8,7 @@
     Yield
   Makes <span class="yield">#{@recipe.yield_string}</span> servings
   - if !@recipe.yield_size.nil?
-    of #{@recipe.yield_size} each.
+    of #{@recipe.yield_size.try_unit} each.
 .ingredients
   %h2
     Ingredients:
