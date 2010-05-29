@@ -48,6 +48,7 @@ class RecipeTest < ActiveSupport::TestCase
   def test_accept_nested_ingredients
     params = { 
       :name => "test_accept_nested_ingredients",
+      :yield => "1.5",
       :ingredients_attributes => [
         {:amount => "1 pound", :name => "flour"},
         {:amount => "1 pound", :name => "sugar"},
@@ -57,5 +58,30 @@ class RecipeTest < ActiveSupport::TestCase
     }
     recipe = Recipe.create(params)
     assert_equal 4, recipe.ingredients.size
+  end
+  
+  def test_yield_string_no_decimals
+    recipe = Factory.build(:recipe)
+    recipe.yield = 123.0
+    assert "123", recipe.yield_string
+  end
+
+  def test_yield_string_decimals
+    recipe = Factory.build(:recipe)
+    recipe.yield = 123.4
+    assert "123.4", recipe.yield_string
+  end
+
+  def test_yield_string_=
+    recipe = Factory.build(:recipe)
+    recipe.yield_string = "123.4"
+    assert 123.4, recipe.yield
+  end
+
+  def test_yield_string_bad=
+    recipe = Factory.build(:recipe)
+    assert_raises ArgumentError do
+      recipe.yield_string = "not a valid number"
+    end
   end
 end

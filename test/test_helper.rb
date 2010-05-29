@@ -9,6 +9,7 @@ require 'pp'
 class ActiveSupport::TestCase
   Factory.define :recipe do |r|
     r.name "A Factory Recipe"
+    r.yield 1
   end
 
   Factory.define :ingredient do |i|

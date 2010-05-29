@@ -3,7 +3,12 @@
 %p
   %strong Name:
   = @recipe.name
-
+.yield
+  %h2
+    Yield
+  Makes <span class="yield">#{@recipe.yield_string}</span> servings
+  - if !@recipe.yield_size.nil?
+    of #{@recipe.yield_size} each.
 .ingredients
   %h2
     Ingredients:

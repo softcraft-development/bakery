@@ -29,29 +29,22 @@ class RecipesControllerTest < ActionController::TestCase
   # end
   
   def test_create_valid
-    recipe = Factory.build(:recipe)
-    post :create, :recipe => { :name => recipe.name }
+    post :create, :recipe => Factory.attributes_for(:recipe)
     assert_not_nil assigns(:recipe).id
   end
   
   def test_create_redirects_to_show
-    recipe = Factory.build(:recipe)
-    post :create, :recipe => { :name => recipe.name }
+    post :create, :recipe => Factory.attributes_for(:recipe)
     assigned = assigns(:recipe)
     assert_redirected_to recipe_url(assigned) if assigned.id != nil
   end
   
   def test_create_with_ingredients
-    ingredient = Factory.build(:ingredient)
-    post :create, :recipe=> { 
-      :name=> ingredient.recipe.name,
-      :ingredients_attributes=>{
-          "0"=>{
-              :name=>ingredient.name,
-              :amount=>ingredient.amount
-          }
-      }
-    }
+    params = 
+    post :create, :recipe => Factory.attributes_for(:recipe).merge({
+      :ingredients_attributes => {
+        "0"=>Factory.attributes_for(:ingredient)
+      }})
     recipe = assigns(:recipe)
     assert_not_nil recipe.ingredients[0].id
   end

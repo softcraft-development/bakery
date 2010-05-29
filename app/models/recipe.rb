@@ -5,4 +5,12 @@ class Recipe < ActiveRecord::Base
   accepts_nested_attributes_for :ingredients, :reject_if => lambda { |a| a[:name].blank? || a[:amount].blank? }, :allow_destroy => true
   has_friendly_id :name, :use_slug => true
   validates_presence_of :name
+  
+  def yield_string
+    "%.1d" % self.yield
+  end
+  
+  def yield_string=(value)
+    self.yield = Float(value)
+  end
 end

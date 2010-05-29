@@ -3,6 +3,9 @@
   %p
     = f.label :name
     = f.text_field :name
+  .yield
+    %h2 Yield
+    This recipe makes #{f.text_field :yield_string} servings. Each serving is #{f.text_field :yield_size} big.
   .ingredients
     %h2 Ingredients
     = f.fields_for :ingredients do |i|
