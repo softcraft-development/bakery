@@ -10,7 +10,7 @@
   = @ingredient.sort_order
 %p
   %strong Amount:
-  = @ingredient.amount
+  = @ingredient.amount.try_unit
 %p
   = link_to "Edit", edit_ingredient_path(@ingredient)
   |

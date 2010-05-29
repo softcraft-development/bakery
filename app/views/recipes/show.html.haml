@@ -16,7 +16,7 @@
     -for ingredient in @recipe.ingredients
       %li
         %span.amount
-          = ingredient.amount
+          = ingredient.amount.try_unit
         %span.name
           = ingredient.name
 %p
