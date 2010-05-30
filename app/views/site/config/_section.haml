@@ -1,0 +1,9 @@
+%h3 #{name}
+%ul
+  - hash = hash.sort {|a,b | a.to_s.downcase <=> b.to_s.downcase  }
+  - hash.each do |key, value|
+    %li
+      - if value.respond_to? :each_pair
+        = render :partial => "section", :locals => {:name => key, :hash => value }
+      - else
+        <span class="key">#{key.to_s}</span> = <span class="value">#{value.to_s}</span>
