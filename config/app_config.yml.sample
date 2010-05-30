@@ -1,3 +1,19 @@
+common:
+  site:
+    email:
+      test:
+        from: bakery@softcraft.ca
+        to: test@softcraft.ca
+        subject: Test Email from Bakery
+  smtp:
+    server: smtp.gmail.com
+    port: 587
+    domain: softcraft.ca
+    user: cwalker77
+    password: **CHANGE ME**
+    authentication: plain
+    use_tls: true
+
 development:
   domain: localhost:3000
 
@@ -6,3 +22,4 @@ test:
 
 production:
   domain: softcraft-bakery.heroku.com
+
