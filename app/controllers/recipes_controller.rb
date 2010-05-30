@@ -5,6 +5,8 @@ class RecipesController < ApplicationController
   
   def show
     @recipe = Recipe.find(params[:id])
+    recipe_yield = params[:yield]
+    @recipe = @recipe.scale(recipe_yield) unless recipe_yield.nil? 
   end
   
   def new

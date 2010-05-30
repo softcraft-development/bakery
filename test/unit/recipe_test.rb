@@ -84,4 +84,106 @@ class RecipeTest < ActiveSupport::TestCase
       recipe.yield_string = "not a valid number"
     end
   end
+  
+  def test_total_yield_unit_size
+    recipe = Factory.build(:recipe)
+    recipe.yield = 3
+    recipe.yield_size = "5 kg"
+    assert_equal "15 kg".unit, recipe.total_yield
+  end
+
+  def test_total_yield_unknown_unit_size
+    recipe = Factory.build(:recipe)
+    recipe.yield = 3
+    recipe.yield_size = "5 foos"
+    assert_equal 3, recipe.total_yield
+  end
+
+  def test_total_yield_nil_unit_size
+    recipe = Factory.build(:recipe)
+    recipe.yield = 3
+    recipe.yield_size = nil
+    assert_equal 3, recipe.total_yield
+  end
+  
+  def test_scaleable_recipe_has_ingredient
+    recipe = Factory.build(:scalable_recipe)
+    assert_equal 1, recipe.ingredients.size
+  end
+  
+  def test_scaleable_recipe_ingredients_does_not_infinite_loop
+    recipe = Factory.build(:scalable_recipe)
+    has_any = false
+    assert_completes_in 4 do
+      recipe.ingredients.each { |ingredient|
+        assert ingredient
+        has_any = true
+      }
+    end
+    assert has_any, :message => " Was not able to get ingredients."
+  end
+  
+  def test_scale_does_not_infinite_loop
+    recipe = Factory.build(:scalable_recipe)
+    assert_completes_in 4 do
+      recipe.scale(2)
+    end
+  end
+  
+  def test_scale_results_frozen
+    recipe = Factory.build(:scalable_recipe)
+    scaled = recipe.scale(recipe.yield * 2)
+    assert scaled.frozen?
+  end
+
+  def test_scale_yield
+    recipe = Factory.build(:scalable_recipe)
+    scaled = recipe.scale(recipe.yield * 2)
+    assert_equal recipe.yield * 2, scaled.yield
+  end
+  
+  def test_scale_yield_size
+    recipe = Factory.build(:scalable_recipe)
+    scaled = recipe.scale(recipe.yield * 2)
+    assert_equal recipe.yield_size, scaled.yield_size
+  end
+
+  def test_scale_ingredient_amount
+    recipe = Factory.build(:scalable_recipe)
+    scaled = recipe.scale(recipe.yield * 2)
+    assert_equal recipe.ingredients.first.amount.unit * 2, scaled.ingredients.first.amount.unit
+  end
+  
+  def test_scaled_cant_be_saved
+    recipe = Factory.create(:scalable_recipe)
+    scaled = recipe.scale(2)
+    assert_raise_kind_of Exception do
+      scaled.save!
+    end
+  end
+
+  def test_scaled_cant_be_modified
+    scaled = Factory.build(:scalable_recipe).scale(2)
+    assert_raise TypeError do
+      scaled.name = "New Name"
+    end
+  end  
+
+  def test_scaled_has_same_name
+    recipe = Factory.build(:scalable_recipe)
+    scaled = recipe.scale(2)
+    assert_equal recipe.name, scaled.name
+  end
+
+  def test_scaled_has_same_id
+    recipe = Factory.create(:scalable_recipe)
+    scaled = recipe.scale(2)
+    assert_equal recipe.id, scaled.id
+  end
+  
+  def test_scaled_ingredients_have_recipe
+    recipe = Factory.create(:scalable_recipe)
+    scaled = recipe.scale(2)
+    assert_equal scaled, scaled.ingredients.first.recipe
+  end
 end

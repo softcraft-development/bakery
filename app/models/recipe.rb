@@ -13,4 +13,34 @@ class Recipe < ActiveRecord::Base
   def yield_string=(value)
     self.yield = Float(value)
   end
+  
+  def total_yield
+    if !yield_size.nil?
+      begin
+        yield_size.unit * self.yield
+      rescue ArgumentError
+        self.yield    
+      end
+    else
+      self.yield
+    end
+  end
+  
+  def scale(new_yield)
+    scaled = Recipe.new
+    scaled.id = self.id
+    scaled.name = self.name
+    scaled.yield_size = self.yield_size
+    
+    scaling_factor = new_yield.to_f / self.yield
+    self.ingredients.each { |ingredient|      
+      scaled_ingredient = ingredient.scale(scaling_factor)
+      scaled_ingredient.recipe = scaled
+      scaled.ingredients << scaled_ingredient
+    }
+    scaled.yield = new_yield
+    
+    scaled.freeze
+    return scaled
+  end
 end

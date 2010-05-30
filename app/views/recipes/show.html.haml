@@ -9,6 +9,12 @@
   Makes <span class="yield">#{@recipe.yield_string}</span> servings
   - if !@recipe.yield_size.nil?
     of #{@recipe.yield_size.try_unit} each.
+
+  %form.scale{:method => "get", :action=> recipe_path(@recipe)}
+    I want to get <input name="yield" value="#{@recipe.yield_string}"/> servings of <input name="yield_size" value="#{@recipe.yield_size.try_unit}"/> each. 
+    %button{type="submit"}
+      Show me the recipe for this amount.
+
 .ingredients
   %h2
     Ingredients:
