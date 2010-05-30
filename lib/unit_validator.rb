@@ -4,7 +4,7 @@ class UnitValidator < ActiveModel::EachValidator
       begin
         value.unit
       rescue ArgumentError => e
-        record.errors[attribute] << (options[:message] || "is not a valid unit")
+        record.errors.add(attribute, options[:message] || "is not a valid unit: #{value.to_s}.", :value => value)
       end
     end
   end
