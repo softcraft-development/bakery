@@ -1,11 +1,4 @@
-smtp = APP_CONFIG[:smtp]
+settings = APP_CONFIG[:smtp].dup
+settings[:authentication] = settings[:authentication].to_sym unless settings[:authentication].nil?
 
-ActionMailer::Base.smtp_settings = {
-  :address              => smtp[:server],
-  :port                 => smtp[:port] || 25,
-  :domain               => smtp[:domain],
-  :user_name            => smtp[:user],
-  :password             => smtp[:password],
-  :authentication       => smtp[:authentication_type],
-  :enable_starttls_auto => smtp[:use_tls]
-}
+ActionMailer::Base.smtp_settings = settings

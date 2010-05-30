@@ -1,4 +1,8 @@
 class Site::MailsController < ApplicationController
+  def show
+    redirect_to(new_site_mail_path)
+  end
+  
   def new
     respond_to do |format|
       format.html # new.html.erb
@@ -11,6 +15,9 @@ class Site::MailsController < ApplicationController
       begin
         SiteMailer.test_email.deliver 
       rescue Exception => ex
+        # TODO: Display the message; this isn't working properly
+        puts "Mail Exception"
+        puts ex
         format.html { render :action => "new", :notice => ex.to_s }
       else
         format.html { redirect_to(new_site_mail_path, :notice => 'Mail was successfully created.') }

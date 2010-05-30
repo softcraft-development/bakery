@@ -1,3 +1,7 @@
 - title "Send a Test Email"
-= form_for "email", :url => site_mail_path do |f|
-  = f.submit "Send Email"
+.site
+  .mail
+    = form_for "email", :url => site_mail_path do |f|
+      = f.submit "Send Email"
+    .navigation
+      = link_to "Back to Site Admin", site_path

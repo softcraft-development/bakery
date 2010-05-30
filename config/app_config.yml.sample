@@ -6,13 +6,13 @@ common:
         to: test@softcraft.ca
         subject: Test Email from Bakery
   smtp:
-    server: smtp.gmail.com
+    address: smtp.gmail.com
     port: 587
-    domain: softcraft.ca
-    user: cwalker77
+    # domain: softcraft.ca
+    user_name: cwalker77
     password: **CHANGE ME**
     authentication: plain
-    use_tls: true
+    enable_starttls_auto: true  
 
 development:
   domain: localhost:3000
