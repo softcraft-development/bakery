@@ -1,5 +1,22 @@
 - title "Configuration"
 .site
   .configuration
+    .app_config
+      %h2 Application Configuration / Environment Variables
+      %table
+        %thead
+          %tr
+            %th
+              Key
+            %th
+              Value
+        %tbody
+          - (APP_CONFIG.sort {|a,b | a.to_s <=> b.to_s  }).each do |key,value|
+            %tr
+              %td
+                = key.to_s
+              %td
+                = value.to_s
+            
     .navigation
       = link_to "Back to Site Admin", site_path
