@@ -14,6 +14,23 @@ class TestAssertions < ActiveSupport::TestCase
     end    
     assert !happened
   end
+  
+  def test_assert_completes_in_success
+    ran = false
+    assert_completes_in 10 do
+      ran = true
+    end
+    assert ran
+  end
+
+  def test_assert_completes_in_failure
+    ran = false
+    assert_completes_in 1 do
+      sleep 2
+      ran = true
+    end
+    assert !ran
+  end
 end
 
 class TestingException < Exception
