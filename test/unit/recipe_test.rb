@@ -126,37 +126,37 @@ class RecipeTest < ActiveSupport::TestCase
   def test_scale_does_not_infinite_loop
     recipe = Factory.build(:scalable_recipe)
     assert_completes_in 4 do
-      recipe.scale(2)
+      recipe.scale(3)
     end
   end
   
   def test_scale_results_frozen
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 2)
+    scaled = recipe.scale(recipe.yield * 3)
     assert scaled.frozen?
   end
 
   def test_scale_yield
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 2)
-    assert_equal recipe.yield * 2, scaled.yield
+    scaled = recipe.scale(recipe.yield * 3)
+    assert_equal recipe.yield * 3, scaled.yield
   end
   
   def test_scale_yield_size
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 2)
+    scaled = recipe.scale(recipe.yield * 3)
     assert_equal recipe.yield_size, scaled.yield_size
   end
 
   def test_scale_ingredient_amount
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 2)
-    assert_equal recipe.ingredients.first.amount.unit * 2, scaled.ingredients.first.amount.unit
+    scaled = recipe.scale(recipe.yield * 3)
+    assert_equal recipe.ingredients.first.amount.unit * 3, scaled.ingredients.first.amount.unit
   end
   
   def test_scaled_cant_be_saved
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(2)
+    scaled = recipe.scale(3)
     assert_raise_kind_of Exception do
       scaled.save!
     end
@@ -171,19 +171,25 @@ class RecipeTest < ActiveSupport::TestCase
 
   def test_scaled_has_same_name
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(2)
+    scaled = recipe.scale(3)
     assert_equal recipe.name, scaled.name
   end
 
   def test_scaled_has_same_id
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(2)
+    scaled = recipe.scale(3)
     assert_equal recipe.id, scaled.id
   end
   
   def test_scaled_ingredients_have_recipe
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(2)
+    scaled = recipe.scale(3)
     assert_equal scaled, scaled.ingredients.first.recipe
   end
+  
+  def test_scale_total_yield
+    recipe = Factory.build(:scalable_recipe)
+    scaled = recipe.scale(recipe.yield * 3, recipe.yield_size.unit * 5)
+    assert_equal recipe.total_yield.unit * 15, scaled.total_yield.unit
+  end  
 end

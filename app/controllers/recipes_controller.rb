@@ -6,7 +6,10 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find(params[:id])
     recipe_yield = params[:yield]
-    @recipe = @recipe.scale(recipe_yield) unless recipe_yield.nil? 
+    unless recipe_yield.nil? 
+      @recipe = @recipe.scale(recipe_yield, params[:yield_size]) 
+      @scaled = true
+    end
   end
   
   def new
