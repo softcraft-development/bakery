@@ -42,4 +42,43 @@ class IngredientTest < ActiveSupport::TestCase
     assert_equal [b,c,a], recipe.ingredients, 
       recipe.ingredients.inject("Recipe ingredients are not in correct sort order: ") { |result, x| result +=  "#{x.sort_order}, " }
   end
+  
+  def test_scale
+    ingredient = Factory.build(:scalable_ingredient)
+    scaled = ingredient.scale(2)
+    assert_equal ingredient.amount.unit * 2, scaled.amount.unit
+  end
+
+  def test_scaled_cant_be_saved
+    ingredient = Factory.create(:scalable_ingredient)
+    scaled = ingredient.scale(2)
+    assert_raise_kind_of Exception do
+      scaled.save!
+    end
+  end
+
+  def test_scaled_cant_be_modified
+    scaled = Factory.build(:scalable_ingredient).scale(2)
+    assert_raises TypeError do
+      scaled.name = "New Name"
+    end
+  end
+  
+  def test_scaled_has_same_name
+    ingredient = Factory.build(:scalable_ingredient)
+    scaled = ingredient.scale(2)
+    assert_equal ingredient.name, scaled.name
+  end
+
+  def test_scaled_has_same_id
+    ingredient = Factory.create(:scalable_ingredient)
+    scaled = ingredient.scale(2)
+    assert_equal ingredient.id, scaled.id
+  end
+
+  def test_scaled_has_no_recipe
+    ingredient = Factory.build(:scalable_ingredient)
+    scaled = ingredient.scale(2)
+    assert_nil scaled.recipe
+  end
 end

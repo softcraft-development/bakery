@@ -8,5 +8,14 @@ class Ingredient < ActiveRecord::Base
   validates :amount, :presence => true, :unit => true
   validates :sort_order, :presence => true, :numericality => true
   default_scope :order => "sort_order"
+  
+  def scale(scaling_factor)
+    scaled = self.clone
+    scaled.recipe = nil;
+    scaled.id = self.id
+    scaled.amount = self.amount.unit * scaling_factor
+    scaled.freeze
+    return scaled
+  end
 end
 
