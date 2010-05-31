@@ -36,3 +36,7 @@ class ActiveSupport::TestCase
     f.amount "7 g"
   end
 end
+
+class ActionController::TestCase
+    include Devise::TestHelpers
+end
