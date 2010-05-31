@@ -1,4 +1,6 @@
 common:
+  email:
+      redirect: development@softcraft.ca
   site:
     email:
       test:
