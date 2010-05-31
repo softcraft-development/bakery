@@ -1,4 +1,6 @@
 Bakery::Application.routes.draw do |map|
+  devise_for :users
+
   resources :recipes do
     resources :ingredients, :only => [:index, :new, :create]    
   end
