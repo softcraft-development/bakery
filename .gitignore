@@ -5,3 +5,4 @@ tmp/**/*
 *.tmproj
 public/stylesheets/*.css
 config/app_config.yml
+log/**
