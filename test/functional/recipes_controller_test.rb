@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class RecipesControllerTest < ActionController::TestCase
+  def setup
+    sign_in Factory.create(:user)
+  end
+  
   def test_index
     get :index
     assert_template 'index'
