@@ -35,6 +35,15 @@ class ActiveSupport::TestCase
     f.association :recipe, :factory => :scalable_recipe
     f.amount "7 g"
   end
+  
+  Factory.sequence :email do |n|
+    "bakery-test-#{n}@softcraft.ca"
+  end
+  
+  Factory.define :user, :class => User do |f|
+    f.email { Factory.next(:email) }
+    f.password "password"
+  end
 end
 
 class ActionController::TestCase
