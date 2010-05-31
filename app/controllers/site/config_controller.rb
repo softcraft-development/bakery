@@ -1,3 +1,3 @@
 class Site::ConfigController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter {authorize! :manage, :site}
 end

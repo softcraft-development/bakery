@@ -44,6 +44,10 @@ class ActiveSupport::TestCase
     f.email { Factory.next(:email) }
     f.password "password"
   end
+  
+  Factory.define :admin, :parent => :user do |f|
+    f.roles [:admin]
+  end
 end
 
 class ActionController::TestCase

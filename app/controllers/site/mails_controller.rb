@@ -1,5 +1,6 @@
 class Site::MailsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter {authorize! :manage, :site}
   
   def show
     redirect_to(new_site_mail_path)
