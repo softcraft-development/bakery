@@ -11,8 +11,7 @@ class User < ActiveRecord::Base
     :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation
-  attr_protected :role_list
+  attr_accessible :email, :password, :password_confirmation, :role_list
   before_save :set_role_list!
   
   def roles=(roles)
