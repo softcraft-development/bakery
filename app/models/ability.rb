@@ -8,6 +8,7 @@ class Ability
       end
       
       can :manage, Recipe, :user_id => user.id
+      can :create, Recipe
     end
   end
 end

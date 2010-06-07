@@ -198,10 +198,14 @@ class RecipeTest < ActiveSupport::TestCase
     recipe = Factory.build(:recipe)    
     assert Ability.new(recipe.user).can?(:manage, recipe)
   end
-
+  
   def test_user_cannot_manage_other_recipe
     recipe = Factory.build(:recipe)
     some_other_user = Factory.build(:user)
     assert Ability.new(some_other_user).cannot?(:manage, recipe)
-  end  
+  end
+
+  def test_user_can_create_recipe
+    assert Ability.new(Factory.build(:user)).can?(:create, Recipe.new)
+  end
 end
