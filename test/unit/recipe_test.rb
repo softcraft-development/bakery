@@ -193,4 +193,15 @@ class RecipeTest < ActiveSupport::TestCase
     scaled = recipe.scale(recipe.yield * 3, recipe.yield_size.unit * 5)
     assert_equal recipe.total_yield.unit * 15, scaled.total_yield.unit
   end
+  
+  def test_user_can_manage_own_recipe
+    recipe = Factory.build(:recipe)    
+    assert Ability.new(recipe.user).can?(:manage, recipe)
+  end
+
+  def test_user_cannot_manage_other_recipe
+    recipe = Factory.build(:recipe)
+    some_other_user = Factory.build(:user)
+    assert Ability.new(some_other_user).cannot?(:manage, recipe)
+  end  
 end

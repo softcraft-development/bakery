@@ -6,6 +6,8 @@ class Ability
       if user.roles.include? :admin
         can :manage, :all
       end
+      
+      can :manage, Recipe, :user_id => user.id
     end
   end
 end
