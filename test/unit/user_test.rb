@@ -48,4 +48,39 @@ class UserTest < ActiveSupport::TestCase
     role_list = user.set_role_list!
     assert_equal "", role_list
   end
+  
+  def test_get_role_token_used_in_role_list
+    role_token = User.get_role_token(:test)
+    user = Factory.build(:user)
+    user.load_roles! role_token
+    assert_not_nil user.roles.find(:test)
+  end
+  
+  def test_get_role_used_in_role_list
+    user = Factory.build(:user)
+    role_list = user.set_role_list! [:test]
+    role = User.get_role(role_list)
+    assert_equal :test, role
+  end
+  
+  def test_admins
+    user = Factory.create(:admin)
+    assert User.admins.all.include?(user)
+  end
+
+  def test_having_role_does_not_match_roles_with_subset_names
+    user = Factory.create(:user, :roles => [:aaabbbccc])
+    assert !User.having_role(:bbb).all.include?(user)
+  end
+  
+  def test_having_role
+    user = Factory.create(:user, :roles => [:test])
+    assert User.having_role(:test).all.include?(user)
+  end
+  
+  # I was suspicious that the include? in the above test may not be correct
+  def test_include
+    user = Factory.create(:user)
+    assert User.all.include?(user)
+  end
 end
