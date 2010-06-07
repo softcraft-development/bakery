@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @recipes = Recipe.all
+    @recipes = current_user.recipes
   end
   
   def show
@@ -20,6 +20,7 @@ class RecipesController < ApplicationController
   
   def create
     @recipe = Recipe.new(params[:recipe])
+    @recipe.user = current_user
     if @recipe.save
       flash[:notice] = "Successfully created recipe."
       redirect_to @recipe

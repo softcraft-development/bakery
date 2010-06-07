@@ -5,9 +5,17 @@ class RecipesControllerTest < ActionController::TestCase
     sign_in Factory.create(:user)
   end
   
-  def test_index
+  def test_index_template
     get :index
     assert_template 'index'
+  end
+  
+  def test_index_only_users_recipes
+    recipe = Factory.create(:recipe)
+    sign_in recipe.user
+    another_recipe = Factory.create(:recipe) # with a different user
+    get :index
+    assert_equal [recipe], assigns(:recipes)
   end
   
   def test_show
