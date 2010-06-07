@@ -11,6 +11,7 @@ require 'terminator'
 class ActiveSupport::TestCase
   Factory.define :recipe do |f|
     f.name "A Factory Recipe"
+    f.association :user, :factory => :user
     f.yield 1
   end
 

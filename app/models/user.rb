@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
     :rememberable, 
     :trackable, 
     :validatable
+    
+  has_many :recipes
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :role_list

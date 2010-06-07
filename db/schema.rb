@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100531015750) do
+ActiveRecord::Schema.define(:version => 20100607000355) do
 
   create_table "ingredients", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20100531015750) do
     t.datetime "updated_at"
     t.float    "yield",      :null => false
     t.string   "yield_size"
+    t.integer  "user_id",    :null => false
   end
 
   create_table "slugs", :force => true do |t|

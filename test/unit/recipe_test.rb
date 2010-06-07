@@ -49,6 +49,7 @@ class RecipeTest < ActiveSupport::TestCase
     params = { 
       :name => "test_accept_nested_ingredients",
       :yield => "1.5",
+      :user => Factory.create(:user),
       :ingredients_attributes => [
         {:amount => "1 pound", :name => "flour"},
         {:amount => "1 pound", :name => "sugar"},
@@ -191,5 +192,5 @@ class RecipeTest < ActiveSupport::TestCase
     recipe = Factory.build(:scalable_recipe)
     scaled = recipe.scale(recipe.yield * 3, recipe.yield_size.unit * 5)
     assert_equal recipe.total_yield.unit * 15, scaled.total_yield.unit
-  end  
+  end
 end
