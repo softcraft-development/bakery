@@ -24,22 +24,38 @@
   %h2
     Ingredients:
   %table
-    -for ingredient in @recipe.ingredients
-      %tr
-        %td.description
-          %span.amount
-            = ingredient.amount.try_unit
-          %span.name
-            = ingredient.name
-        %td.purchase
-          %span.purchase_cost
-            = ingredient.purchase_cost ? (number_to_currency ingredient.purchase_cost) : "$?"
-          @
-          %span.purchase_amount
-            = ingredient.purchase_amount ? ingredient.purchase_amount.unit : "?"
-        %td.cost
-          \= 
-          = ingredient.cost ? (number_to_currency ingredient.cost) : "$?"
+    %tbody
+      -for ingredient in @recipe.ingredients
+        %tr
+          %td.description
+            %span.amount
+              = ingredient.amount.try_unit
+            %span.name
+              = ingredient.name
+          %td.purchase
+            (
+            %span.purchase_cost
+              = dollars(ingredient.purchase_cost)
+            for
+            %span.purchase_amount
+              = ingredient.purchase_amount ? ingredient.purchase_amount.unit : "N/A"
+            )
+            \= 
+          %td.cost
+            = dollars(ingredient.cost)
+    %tfoot
+      %tr.total
+        %th.description
+        %th.purchase
+          Total Recipe Cost
+        %th.cost
+          = dollars(@recipe.cost)
+      %tr.unit_cost
+        %th.description
+        %th.purchase
+          Cost per Serving
+        %th.cost
+          = dollars(@recipe.unit_cost)
   = link_to "Edit", edit_recipe_path(@recipe)
   |
   = link_to "Destroy", @recipe, :confirm => 'Are you sure?', :method => :delete
