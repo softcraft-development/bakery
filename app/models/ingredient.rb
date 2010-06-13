@@ -17,5 +17,11 @@ class Ingredient < ActiveRecord::Base
     scaled.freeze
     return scaled
   end
+  
+  def cost
+    return nil unless purchase_amount && purchase_cost
+    return nil unless amount.unit.compatible_with? purchase_amount.unit
+    return (amount.unit / purchase_amount.unit) * purchase_cost
+  end
 end
 

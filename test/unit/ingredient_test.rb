@@ -81,4 +81,32 @@ class IngredientTest < ActiveSupport::TestCase
     scaled = ingredient.scale(2)
     assert_nil scaled.recipe
   end
+  
+  def test_cost_unknown_purchase_amount
+    ingredient = Factory.build(:ingredient)
+    ingredient.purchase_amount = "3 lbs"
+    assert_nil ingredient.cost
+  end
+  
+  def test_cost_unknown_purchase_cost
+    ingredient = Factory.build(:ingredient)
+    ingredient.purchase_cost = 3
+    assert_nil ingredient.cost
+  end
+  
+  def test_cost_invalid_units
+    ingredient = Factory.build(:ingredient)
+    ingredient.amount = "3 kg"
+    ingredient.purchase_amount = "5 cups"
+    ingredient.purchase_cost = "7"
+    assert_nil ingredient.cost
+  end
+
+  def test_cost_valid
+    ingredient = Factory.build(:ingredient)
+    ingredient.amount = "3 kg"
+    ingredient.purchase_amount = "5 kg"
+    ingredient.purchase_cost = 7
+    assert_equal (3 / 5 * 7), ingredient.cost
+  end
 end
