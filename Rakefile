@@ -41,3 +41,10 @@ rule "" do |t|
     sh "ruby -Ilib:test test/#{run_file_name} -n /#{test_name}/" 
   end
 end
+
+namespace :sass do
+  desc 'Updates stylesheets if necessary from their Sass templates.'
+  task :update => :environment do
+    Sass::Plugin.update_stylesheets
+  end
+end
