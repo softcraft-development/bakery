@@ -39,6 +39,7 @@ class Recipe < ActiveRecord::Base
     scaled.id = self.id
     scaled.name = self.name
     scaled.yield_size = new_yield_size
+    scaled.slug = self.slug
     
     if new_yield_size.nil?
       scaling_factor = Float(new_yield) / self.yield

@@ -182,6 +182,12 @@ class RecipeTest < ActiveSupport::TestCase
     assert_equal recipe.id, scaled.id
   end
   
+  def test_scaled_has_same_param
+    recipe = Factory.create(:scalable_recipe)
+    scaled = recipe.scale(3)
+    assert_equal recipe.to_param, scaled.to_param
+  end
+  
   def test_scaled_ingredients_have_recipe
     recipe = Factory.create(:scalable_recipe)
     scaled = recipe.scale(3)
