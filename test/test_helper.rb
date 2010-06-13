@@ -5,7 +5,6 @@ require 'factory_girl'
 require 'pp'
 require 'assertions'
 require 'terminator'
-require 'mathn'
 # TODO: Reenable for Shoulda on Rails 3
 # require "shoulda"
 
@@ -32,7 +31,6 @@ class ActiveSupport::TestCase
   end
   
   Factory.define :recipe do |f|
-    puts "Factory: #{f.class}"
     f.name "A Factory Recipe"
     f.association :user, :factory => :user
     f.yield {Factory.next(:prime)}
