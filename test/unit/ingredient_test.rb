@@ -45,20 +45,21 @@ class IngredientTest < ActiveSupport::TestCase
   
   def test_scale
     ingredient = Factory.build(:scalable_ingredient)
-    scaled = ingredient.scale(2)
-    assert_equal ingredient.amount.unit * 2, scaled.amount.unit
+    target = Factory.next(:prime)
+    scaled = ingredient.scale(target)
+    assert_equal ingredient.amount.unit * target, scaled.amount.unit
   end
 
   def test_scaled_cant_be_saved
     ingredient = Factory.create(:scalable_ingredient)
-    scaled = ingredient.scale(2)
+    scaled = ingredient.scale(Factory.next(:prime))
     assert_raise_kind_of Exception do
       scaled.save!
     end
   end
 
   def test_scaled_cant_be_modified
-    scaled = Factory.build(:scalable_ingredient).scale(2)
+    scaled = Factory.build(:scalable_ingredient).scale(Factory.next(:prime))
     assert_raises TypeError do
       scaled.name = "New Name"
     end
@@ -66,48 +67,51 @@ class IngredientTest < ActiveSupport::TestCase
   
   def test_scaled_has_same_name
     ingredient = Factory.build(:scalable_ingredient)
-    scaled = ingredient.scale(2)
+    scaled = ingredient.scale(Factory.next(:prime))
     assert_equal ingredient.name, scaled.name
   end
 
   def test_scaled_has_same_id
     ingredient = Factory.create(:scalable_ingredient)
-    scaled = ingredient.scale(2)
+    scaled = ingredient.scale(Factory.next(:prime))
     assert_equal ingredient.id, scaled.id
   end
 
   def test_scaled_has_no_recipe
     ingredient = Factory.build(:scalable_ingredient)
-    scaled = ingredient.scale(2)
+    scaled = ingredient.scale(Factory.next(:prime))
     assert_nil scaled.recipe
   end
   
   def test_cost_unknown_purchase_amount
     ingredient = Factory.build(:ingredient)
-    ingredient.purchase_amount = "3 lbs"
+    ingredient.purchase_amount = "#{Factory.next(:prime)} lbs"
     assert_nil ingredient.cost
   end
   
   def test_cost_unknown_purchase_cost
     ingredient = Factory.build(:ingredient)
-    ingredient.purchase_cost = 3
+    ingredient.purchase_cost = Factory.next(:prime)
     assert_nil ingredient.cost
   end
   
   def test_cost_invalid_units
     ingredient = Factory.build(:ingredient)
-    ingredient.amount = "3 kg"
-    ingredient.purchase_amount = "5 cups"
-    ingredient.purchase_cost = "7"
+    ingredient.amount = "#{Factory.next(:prime)} kg"
+    ingredient.purchase_amount = "#{Factory.next(:prime)} cups"
+    ingredient.purchase_cost = Factory.next(:prime)
     assert_nil ingredient.cost
   end
 
   def test_cost_valid
     ingredient = Factory.build(:ingredient)
-    ingredient.amount = "3 kg"
-    ingredient.purchase_amount = "5 kg"
-    ingredient.purchase_cost = 7
-    assert_equal (3 / 5 * 7), ingredient.cost
+    target_amount = Factory.next(:prime)
+    ingredient.amount = "#{target_amount} kg"
+    target_purchase_amount = Factory.next(:prime)
+    ingredient.purchase_amount = "#{target_purchase_amount} kg"
+    ingredient.purchase_cost = Factory.next(:prime)
+    target = (target_amount / target_purchase_amount * ingredient.purchase_cost)
+    assert_equal target, ingredient.cost
   end
   
   def test_costable_ingredient_has_cost
