@@ -10,4 +10,8 @@ module ApplicationHelper
     end
     link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
   end
+  
+  def dollars(value, on_nil = "$N/A")
+    value == nil ? on_nil : number_to_currency(value)
+  end
 end
