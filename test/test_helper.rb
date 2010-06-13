@@ -9,6 +9,17 @@ require 'mathn'
 # TODO: Reenable for Shoulda on Rails 3
 # require "shoulda"
 
+class Factory
+  def has_many(collection)
+    after_build { |instance|
+      yield instance
+    }
+    after_create { |instance|
+      instance.send(collection).each { |i| i.save! }
+    }
+  end
+end
+
 class ActiveSupport::TestCase
   
   Factory.sequence :prime do |n|
@@ -21,21 +32,29 @@ class ActiveSupport::TestCase
   end
   
   Factory.define :recipe do |f|
+    puts "Factory: #{f.class}"
     f.name "A Factory Recipe"
     f.association :user, :factory => :user
     f.yield {Factory.next(:prime)}
   end
 
-  Factory.define :scalable_recipe, :parent => :recipe do |f|
+  Factory.define :recipe_with_yield, :parent => :recipe do |f|
     f.yield {Factory.next(:prime)}
     f.yield_size "#{Factory.next(:prime)} kg"
-    f.after_build { |recipe|
-      recipe.ingredients << Factory.build(:scalable_ingredient, :recipe => recipe)
-    }
-    f.after_create { |recipe|
-      recipe.ingredients << Factory.create(:scalable_ingredient, :recipe => recipe)
-    }
   end
+
+  Factory.define :scalable_recipe, :parent => :recipe_with_yield do |f|    
+    f.has_many :ingredients do |recipe|
+      recipe.ingredients << Factory.build(:scalable_ingredient, :recipe => recipe)
+    end
+  end
+  
+  Factory.define :costable_recipe, :parent => :recipe_with_yield do |f|
+    f.has_many :ingredients do |recipe|
+      recipe.ingredients << Factory.build(:costable_ingredient, :recipe => recipe)
+      recipe.ingredients << Factory.build(:costable_ingredient, :recipe => recipe)
+    end
+  end  
   
   Factory.define :ingredient do |f|
     f.association :recipe, :factory => :recipe
@@ -50,6 +69,7 @@ class ActiveSupport::TestCase
   
   Factory.define :costable_ingredient, :parent => :scalable_ingredient do |f|
     f.purchase_amount {Factory.next(:prime)}
+    f.purchase_cost {Factory.next(:prime)}    
   end
   
   Factory.sequence :email do |n|
