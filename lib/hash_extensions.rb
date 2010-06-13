@@ -8,4 +8,14 @@ class Hash
     values.select{|v| v.is_a?(Array) }.flatten.each{|h| h.recursive_symbolize_keys! if h.is_a?(Hash) }
     self
   end
+  
+  def evoke(key, default = nil)
+    if include?(key)
+      value = self[key]
+    else
+      value = block_given? ? yield : default
+      self[key] = value
+    end
+    value
+  end
 end
