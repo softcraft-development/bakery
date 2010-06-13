@@ -48,7 +48,7 @@ class RecipeTest < ActiveSupport::TestCase
   def test_accept_nested_ingredients
     params = { 
       :name => "test_accept_nested_ingredients",
-      :yield => "1.5",
+      :yield => Factory.next(:prime),
       :user => Factory.create(:user),
       :ingredients_attributes => [
         {:amount => "1 pound", :name => "flour"},
@@ -214,4 +214,41 @@ class RecipeTest < ActiveSupport::TestCase
   def test_user_can_create_recipe
     assert Ability.new(Factory.build(:user)).can?(:create, Recipe.new)
   end
+  
+  def test_costable_recipe_has_ingredients
+    recipe = Factory.build(:costable_recipe)
+    assert_not_equal 0, recipe.ingredients
+  end
+  
+  def test_costable_recipe_has_all_costable_ingredients
+    recipe = Factory.build(:costable_recipe)
+    assert_all recipe.ingredients do |ingredient|
+      assert_not_nil ingredient.cost
+    end
+  end
+  
+  def test_recipe_cost_valid
+    recipe = Factory.build(:costable_recipe)
+    total = recipe.ingredients.inject(0) { |t,ingredient| t + ingredient.cost }
+    recipe_cost = recipe.cost
+    assert_equal total, recipe_cost
+  end
+
+  def test_recipe_cost_unknown
+    recipe = Factory.build(:costable_recipe)
+    recipe.ingredients.first.purchase_cost = nil
+    assert_equal nil, recipe.cost
+  end
+  
+  def test_recipe_unit_cost_valid
+    recipe = Factory.build(:costable_recipe)
+    total = recipe.ingredients.inject(0) { |t,ingredient| t + ingredient.cost }
+    assert_equal total / recipe.yield, recipe.unit_cost
+  end  
+
+  def test_recipe_unit_cost_unknown
+    recipe = Factory.build(:costable_recipe)
+    recipe.ingredients.first.purchase_cost = nil
+    assert_equal nil, recipe.unit_cost
+  end  
 end

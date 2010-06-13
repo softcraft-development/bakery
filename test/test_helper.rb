@@ -68,7 +68,7 @@ class ActiveSupport::TestCase
   end
   
   Factory.define :costable_ingredient, :parent => :scalable_ingredient do |f|
-    f.purchase_amount {Factory.next(:prime)}
+    f.purchase_amount {"#{Factory.next(:prime)} g"}
     f.purchase_cost {Factory.next(:prime)}    
   end
   

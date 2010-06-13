@@ -27,4 +27,13 @@ module Test::Unit::Assertions
       end
     end
   end
+  
+  def assert_all(collection)
+    has_any = false
+    collection.each do |x|
+      yield x
+      has_any ||= true
+    end
+    assert has_any, "Did not assert on any elements"
+  end
 end

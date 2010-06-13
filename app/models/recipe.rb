@@ -57,4 +57,19 @@ class Recipe < ActiveRecord::Base
     scaled.freeze
     return scaled
   end
+  
+  def cost
+    return ingredients.inject(0) do |total, ingredient| 
+      return nil if total == nil 
+      return nil if ingredient.cost == nil 
+      total + ingredient.cost
+    end
+  end
+  
+  def unit_cost
+    total_cost = cost
+    return nil if total_cost == nil
+    return nil unless self.yield
+    return total_cost / self.yield
+  end
 end

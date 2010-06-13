@@ -109,4 +109,9 @@ class IngredientTest < ActiveSupport::TestCase
     ingredient.purchase_cost = 7
     assert_equal (3 / 5 * 7), ingredient.cost
   end
+  
+  def test_costable_ingredient_has_cost
+    ingredient = Factory.build(:costable_ingredient)
+    assert_not_nil ingredient.cost
+  end
 end
