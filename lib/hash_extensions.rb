@@ -11,11 +11,9 @@ class Hash
   
   def evoke(key, default = nil)
     if include?(key)
-      value = self[key]
+      self[key]
     else
-      value = block_given? ? yield : default
-      self[key] = value
+      self[key] = block_given? ? yield : default
     end
-    value
   end
 end
