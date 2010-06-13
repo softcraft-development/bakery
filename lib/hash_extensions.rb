@@ -9,6 +9,9 @@ class Hash
     self
   end
   
+  # Pass either a default value or a block to return it (a la Hash#fetch()).
+  # If both are passed, the block will take precedence over the default value
+  # http://gist.github.com/437101
   def evoke(key, default = nil)
     if include?(key)
       self[key]
