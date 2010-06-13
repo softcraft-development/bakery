@@ -51,10 +51,10 @@ class RecipeTest < ActiveSupport::TestCase
       :yield => Factory.next(:prime),
       :user => Factory.create(:user),
       :ingredients_attributes => [
-        {:amount => "1 pound", :name => "flour"},
-        {:amount => "1 pound", :name => "sugar"},
-        {:amount => "1 pound", :name => "eggs"},
-        {:amount => "1 pound", :name => "butter"},
+        {:amount => "#{Factory.next(:prime)} pound", :name => "flour"},
+        {:amount => "#{Factory.next(:prime)} pound", :name => "sugar"},
+        {:amount => "#{Factory.next(:prime)} pound", :name => "eggs"},
+        {:amount => "#{Factory.next(:prime)} pound", :name => "butter"},
       ]
     }
     recipe = Recipe.create(params)
@@ -63,20 +63,23 @@ class RecipeTest < ActiveSupport::TestCase
   
   def test_yield_string_no_decimals
     recipe = Factory.build(:recipe)
-    recipe.yield = 123.0
-    assert "123", recipe.yield_string
+    target = Factory.next(:prime)
+    recipe.yield = target
+    assert target.to_s, recipe.yield_string
   end
 
   def test_yield_string_decimals
     recipe = Factory.build(:recipe)
-    recipe.yield = 123.4
-    assert "123.4", recipe.yield_string
+    target = Factory.next(:prime) + 0.1
+    recipe.yield = target
+    assert target.to_s, recipe.yield_string
   end
 
   def test_yield_string_=
     recipe = Factory.build(:recipe)
-    recipe.yield_string = "123.4"
-    assert 123.4, recipe.yield
+    target = Factory.next(:prime) + 0.1
+    recipe.yield_string = target.to_s
+    assert target, recipe.yield
   end
 
   def test_yield_string_bad=
@@ -88,23 +91,25 @@ class RecipeTest < ActiveSupport::TestCase
   
   def test_total_yield_unit_size
     recipe = Factory.build(:recipe)
-    recipe.yield = 3
-    recipe.yield_size = "5 kg"
-    assert_equal "15 kg".unit, recipe.total_yield
+    recipe.yield = Factory.next(:prime)
+    target_yield_size = Factory.next(:prime)
+    recipe.yield_size = "#{target_yield_size} kg"
+    target = recipe.yield * target_yield_size
+    assert_equal "#{target} kg".unit, recipe.total_yield
   end
 
   def test_total_yield_unknown_unit_size
     recipe = Factory.build(:recipe)
-    recipe.yield = 3
-    recipe.yield_size = "5 foos"
-    assert_equal 3, recipe.total_yield
+    recipe.yield = Factory.next(:prime)
+    recipe.yield_size = "#{Factory.next(:prime)} foos"
+    assert_equal recipe.yield, recipe.total_yield
   end
 
   def test_total_yield_nil_unit_size
     recipe = Factory.build(:recipe)
-    recipe.yield = 3
+    recipe.yield = Factory.next(:prime)
     recipe.yield_size = nil
-    assert_equal 3, recipe.total_yield
+    assert_equal recipe.yield, recipe.total_yield
   end
   
   def test_scaleable_recipe_has_ingredient
@@ -127,44 +132,46 @@ class RecipeTest < ActiveSupport::TestCase
   def test_scale_does_not_infinite_loop
     recipe = Factory.build(:scalable_recipe)
     assert_completes_in 4 do
-      recipe.scale(3)
+      recipe.scale(Factory.next(:prime))
     end
   end
   
   def test_scale_results_frozen
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 3)
+    scaled = recipe.scale(recipe.yield * Factory.next(:prime))
     assert scaled.frozen?
   end
 
   def test_scale_yield
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 3)
-    assert_equal recipe.yield * 3, scaled.yield
+    target = Factory.next(:prime)
+    scaled = recipe.scale(target)
+    assert_equal target, scaled.yield
   end
   
   def test_scale_yield_size
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 3)
+    scaled = recipe.scale(Factory.next(:prime))
     assert_equal recipe.yield_size, scaled.yield_size
   end
 
   def test_scale_ingredient_amount
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 3)
-    assert_equal recipe.ingredients.first.amount.unit * 3, scaled.ingredients.first.amount.unit
+    target= Factory.next(:prime)
+    scaled = recipe.scale(recipe.yield * target)
+    assert_equal recipe.ingredients.first.amount.unit * target, scaled.ingredients.first.amount.unit
   end
   
   def test_scaled_cant_be_saved
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(3)
+    scaled = recipe.scale(Factory.next(:prime))
     assert_raise_kind_of Exception do
       scaled.save!
     end
   end
 
   def test_scaled_cant_be_modified
-    scaled = Factory.build(:scalable_recipe).scale(2)
+    scaled = Factory.build(:scalable_recipe).scale(Factory.next(:prime))
     assert_raise TypeError do
       scaled.name = "New Name"
     end
@@ -172,32 +179,34 @@ class RecipeTest < ActiveSupport::TestCase
 
   def test_scaled_has_same_name
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(3)
+    scaled = recipe.scale(Factory.next(:prime))
     assert_equal recipe.name, scaled.name
   end
 
   def test_scaled_has_same_id
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(3)
+    scaled = recipe.scale(Factory.next(:prime))
     assert_equal recipe.id, scaled.id
   end
   
   def test_scaled_has_same_param
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(3)
+    scaled = recipe.scale(Factory.next(:prime))
     assert_equal recipe.to_param, scaled.to_param
   end
   
   def test_scaled_ingredients_have_recipe
     recipe = Factory.create(:scalable_recipe)
-    scaled = recipe.scale(3)
+    scaled = recipe.scale(Factory.next(:prime))
     assert_equal scaled, scaled.ingredients.first.recipe
   end
   
   def test_scale_total_yield
     recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * 3, recipe.yield_size.unit * 5)
-    assert_equal recipe.total_yield.unit * 15, scaled.total_yield.unit
+    target_yield = Factory.next(:prime)
+    target_yield_size = Factory.next(:prime)
+    scaled = recipe.scale(target_yield, target_yield_size)
+    assert_equal target_yield * target_yield_size, scaled.total_yield.unit
   end
   
   def test_user_can_manage_own_recipe
