@@ -18,13 +18,24 @@ class RecipesControllerTest < ActionController::TestCase
     assert_equal [recipe], assigns(:recipes)
   end
   
-  def test_show
-    get :show, :id => Factory.create(:recipe)
+  def test_show_template
+    get :show, :id => Factory.create(:scalable_recipe)
     assert_template 'show'
   end
   
+  def test_show_success
+    get :show, :id => Factory.create(:scalable_recipe).id
+    assert_response :success
+  end
+  
+  def test_show_assigns_recipe
+    recipe =  Factory.create(:scalable_recipe)
+    get :show, :id => recipe
+    assert_equal recipe, assigns(:recipe)
+  end
+  
   def test_show_by_friendly_id
-    get :show, :id => Factory.create(:recipe).to_param
+    get :show, :id => Factory.create(:scalable_recipe).to_param
     assert_template 'show'
   end
   
