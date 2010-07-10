@@ -18,10 +18,9 @@ class Site::MailsController < ApplicationController
       begin
         SiteMailer.test_email.deliver 
       rescue Exception => ex
-        # TODO: Display the message; this isn't working properly
-        puts "Mail Exception"
-        puts ex
-        format.html { render :action => "new", :notice => ex.to_s }
+        logger.error(ex)
+        flash[:notice] = "Error: " + ex.message
+        format.html { render :action => "new" }
       else
         format.html { redirect_to(new_site_mail_path, :notice => 'Mail was successfully created.') }
       end
