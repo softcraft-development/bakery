@@ -36,4 +36,8 @@ module Test::Unit::Assertions
     end
     assert has_any, "Did not assert on any elements"
   end
+  
+  def assert_float_equal(expected, actual)
+    assert_in_delta(expected.to_f, actual.to_f, 0.00001)
+  end
 end

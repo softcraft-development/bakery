@@ -31,6 +31,21 @@ class TestAssertions < ActiveSupport::TestCase
     end
     assert !ran
   end
+  
+  def test_assert_float_equal_success
+    assert_float_equal 1.0, 1.0
+  end
+
+  def test_assert_float_equal_close_enough
+    assert_float_equal 1.0, 1.0000000001
+  end
+  
+  def test_assert_float_equal_fail
+    happened = assert_raise_kind_of Exception do
+      assert_float_equal 1.0, 1.1
+    end    
+    assert happened
+  end  
 end
 
 class TestingException < Exception
