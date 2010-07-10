@@ -27,6 +27,7 @@ gem "ruby-units"
 gem "friendly_id"
 gem "devise", "1.1.rc1"
 gem "cancan"
+gem "hoptoad_notifier"
 
 group :test do
   gem "ZenTest"
