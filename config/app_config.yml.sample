@@ -1,27 +1,28 @@
 common:
-  email:
-      redirect: development@softcraft.ca
-  site:
-    email:
-      test:
-        from: bakery@softcraft.ca
-        to: test@softcraft.ca
-        subject: Test Email from Bakery
-  smtp:
-    address: smtp.gmail.com
-    port: 587
-    # domain: softcraft.ca
-    user_name: cwalker77
-    password: **CHANGE ME**
-    authentication: plain
-    enable_starttls_auto: true  
+  email_redirect: development@softcraft.ca
+  email_test_from: bakery@softcraft.ca
+  email_test_to: test@softcraft.ca
+  email_test_subject: Test Email from Bakery
 
 development:
   domain: localhost:3000
+  email_smtp_host: smtp.teksavvy.com
+  email_smtp_port: 25
+  # email_smtp_domain:
+  # email_smtp_user_name: cwalker77@teksavvy.com
+  # email_smtp_password: **CHANGE ME**
+  # email_smtp_authentication: plain
+  # email_smtp_enable_starttls_auto: true
 
 test:
   domain: test.host
 
 production:
   domain: softcraft-bakery.heroku.com
-
+  email_smtp_host: smtp.gmail.com
+  email_smtp_port: 587
+  # email_smtp_domain:
+  email_smtp_user_name: cwalker77
+  email_smtp_password: **CHANGE ME**
+  email_smtp_authentication: plain
+  email_smtp_enable_starttls_auto: true
