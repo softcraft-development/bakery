@@ -114,6 +114,14 @@ class IngredientTest < ActiveSupport::TestCase
     assert_equal target, ingredient.cost
   end
   
+  def test_cost_valid
+    ingredient = Factory.build(:ingredient)
+    ingredient.amount = "#{Factory.next(:prime)} kg"
+    ingredient.purchase_amount = "0"
+    ingredient.purchase_cost = Factory.next(:prime)
+    assert_equal 0, ingredient.cost
+  end
+  
   def test_costable_ingredient_has_cost
     ingredient = Factory.build(:costable_ingredient)
     assert_not_nil ingredient.cost
