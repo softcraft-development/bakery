@@ -111,15 +111,26 @@ class IngredientTest < ActiveSupport::TestCase
     ingredient.purchase_amount = "#{target_purchase_amount} kg"
     ingredient.purchase_cost = Factory.next(:prime)
     target = (target_amount / target_purchase_amount * ingredient.purchase_cost)
-    assert_equal target, ingredient.cost
+    assert_float_equal target, ingredient.cost
   end
   
-  def test_cost_valid
+  def test_cost_no_purchase_amount
     ingredient = Factory.build(:ingredient)
     ingredient.amount = "#{Factory.next(:prime)} kg"
     ingredient.purchase_amount = "0"
     ingredient.purchase_cost = Factory.next(:prime)
-    assert_equal 0, ingredient.cost
+    assert_float_equal 0, ingredient.cost
+  end
+  
+  def test_cost_different_units
+    ingredient = Factory.build(:ingredient)
+    target_amount = Factory.next(:prime)
+    ingredient.amount = "#{target_amount} g"
+    target_purchase_amount = Factory.next(:prime)
+    ingredient.purchase_amount = "#{target_purchase_amount} kg"
+    ingredient.purchase_cost = Factory.next(:prime)
+    target = (target_amount / 1000 / target_purchase_amount * ingredient.purchase_cost)
+    assert_float_equal target, ingredient.cost
   end
   
   def test_costable_ingredient_has_cost
