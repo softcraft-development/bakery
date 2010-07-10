@@ -8,6 +8,7 @@ Bakery::Application.routes.draw do |map|
   resource :site, :only => [:show] do
     resource :config, :only => [:show], :controller => "site/config"
     resource :mail, :only => [:create, :new, :show], :controller => "site/mails"
+    resource :error, :only => [:create, :new, :show], :controller => "site/errors"
   end
 
   # The priority is based upon order of creation:

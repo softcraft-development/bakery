@@ -1,0 +1,7 @@
+- title "Generate an Error"
+.site
+  .mail
+    = form_for "error", :url => site_error_path do |f|
+      = f.submit "Generate an Error"
+    .navigation
+      = link_to "Back to Site Admin", site_path

@@ -1,0 +1,2 @@
+module Site::ErrorsHelper
+end
