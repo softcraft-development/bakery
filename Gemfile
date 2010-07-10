@@ -37,9 +37,9 @@ group :test do
   gem "redgreen"
   gem "terminator"
   # TODO: reenable shoulda once it's working with Rails 3
-  # gem "shoulda", :git => "http://github.com/thoughtbot/shoulda.git", :branch => "rails3"
+  # gem "shoulda"
   gem "mocha"
-  gem "factory_girl", :git => "http://github.com/thoughtbot/factory_girl.git", :branch => "rails3"
+  gem "factory_girl_rails"
 end
 
 group :development do
