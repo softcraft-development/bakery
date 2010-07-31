@@ -5,6 +5,7 @@ require File.expand_path('../application', __FILE__)
 Bakery::Application.initialize!
 require 'ruby_units_extensions'
 require "math_enhancements"
+require 'pp'
 
 Bakery::Application.configure do  
   config.action_mailer.delivery_method = :smtp
