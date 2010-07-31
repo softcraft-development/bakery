@@ -25,7 +25,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem "haml"
 gem "ruby-units"
 gem "friendly_id"
-gem "devise", "1.1.rc1"
+gem "devise"
 gem "cancan"
 gem "hoptoad_notifier"
 
