@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'hash_extensions'
 
 class TestHashExtensions < ActiveSupport::TestCase
   def test_evoke_found_block
