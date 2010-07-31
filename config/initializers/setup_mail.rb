@@ -1,3 +1,5 @@
+require "development_mail_interceptor"
+
 settings = { 
   :address => APP_CONFIG[:email_smtp_host],
   :port => APP_CONFIG[:email_smtp_port],
