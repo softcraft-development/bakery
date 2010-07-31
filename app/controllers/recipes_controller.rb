@@ -35,7 +35,9 @@ class RecipesController < ApplicationController
   
   def update
     @recipe = Recipe.find(params[:id])
+    @recipe.ingredients.to_s
     if @recipe.update_attributes(params[:recipe])
+      @recipe = Recipe.find(@recipe.id)
       flash[:notice] = "Successfully updated recipe."
       redirect_to @recipe
     else

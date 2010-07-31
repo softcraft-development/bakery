@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  purchase_amount: MyString
+  purchase_cost: MyString
+  owner: 
+
+two:
+  name: MyString
+  purchase_amount: MyString
+  purchase_cost: MyString
+  owner: 

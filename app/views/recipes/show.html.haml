@@ -31,14 +31,14 @@
               %span.amount
                 = ingredient.amount.try_unit
               %span.name
-                = ingredient.name
+                = ingredient.food.name
             %td.purchase
               (
               %span.purchase_cost
-                = dollars(ingredient.purchase_cost)
+                = dollars(ingredient.food.purchase_cost)
               for
               %span.purchase_amount
-                = ingredient.purchase_amount ? ingredient.purchase_amount.unit : "N/A"
+                = ingredient.food.purchase_amount ? ingredient.food.purchase_amount.unit : "N/A"
               )
               \= 
             %td.cost

@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
     :validatable
     
   has_many :recipes
+  has_many :foods
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :role_list
@@ -58,4 +59,14 @@ class User < ActiveRecord::Base
   end
 
   scope :admins, having_role(:admin)
+  
+  def self.evoke_admin()
+    user = User.admins.first
+    unless user
+      user = User.create(
+        :email => "#{Time.now.to_f}.EvokedAdmin@softcraft.ca",
+        :password => rand(1000000).to_s + "123456"  )
+    end
+    return user
+  end
 end

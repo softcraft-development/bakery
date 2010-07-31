@@ -21,6 +21,8 @@ end
 
 class ActiveSupport::TestCase
   
+  
+  
   Factory.sequence :prime do |n|
     unless defined? @@prime
       @@prime = Prime.new
@@ -43,21 +45,31 @@ class ActiveSupport::TestCase
 
   Factory.define :scalable_recipe, :parent => :recipe_with_yield do |f|    
     f.has_many :ingredients do |recipe|
-      recipe.ingredients << Factory.build(:scalable_ingredient, :recipe => recipe)
+      Factory.build(:scalable_ingredient, :recipe => recipe)
     end
   end
   
   Factory.define :costable_recipe, :parent => :recipe_with_yield do |f|
     f.has_many :ingredients do |recipe|
-      recipe.ingredients << Factory.build(:costable_ingredient, :recipe => recipe)
-      recipe.ingredients << Factory.build(:costable_ingredient, :recipe => recipe)
+      Factory.build(:costable_ingredient, :recipe => recipe)
+      Factory.build(:costable_ingredient, :recipe => recipe)
     end
   end  
+
+  Factory.define :food do |f|
+    f.name "A Factory Food"
+  end
+  
+  Factory.define :costable_food, :parent => :food do |f|
+    f.purchase_amount {"#{Factory.next(:prime)} g"}
+    f.purchase_cost {Factory.next(:prime)}    
+  end
   
   Factory.define :ingredient do |f|
     f.association :recipe, :factory => :recipe
-    f.name "A Factory ingredient"
+    f.association :food, :factory => :food
     f.amount {Factory.next(:prime)}
+    f.after_build { |i| i.recipe.ingredients << i unless i.recipe.nil? }
   end
 
   Factory.define :scalable_ingredient, :parent => :ingredient do |f|
@@ -66,8 +78,7 @@ class ActiveSupport::TestCase
   end
   
   Factory.define :costable_ingredient, :parent => :scalable_ingredient do |f|
-    f.purchase_amount {"#{Factory.next(:prime)} g"}
-    f.purchase_cost {Factory.next(:prime)}    
+    f.association :food, :factory => :costable_food
   end
   
   Factory.sequence :email do |n|
@@ -86,4 +97,17 @@ end
 
 class ActionController::TestCase
     include Devise::TestHelpers
+end
+
+class Ingredient
+  def get_update_parameters(new_amount)
+    params = { 
+      "ingredients_attributes" => {
+          "0" => {
+            "id" => self.id.to_s,
+            "amount" => new_amount.to_s
+          }
+        }
+    }
+  end
 end

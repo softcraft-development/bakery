@@ -2,13 +2,14 @@
   %span.amount
     = f.label :amount
     = f.text_field :amount
-  %span.name
-    = f.label :name
-    = f.text_field :name
-  %span.purchase_amount
-    = f.label :purchase_amount
-    = f.text_field :purchase_amount
-  %span.purchase_cost
-    = f.label :purchase_cost
-    = f.text_field :purchase_cost
+  = f.fields_for :food do |ff|
+    %span.name
+      = ff.label :name
+      = ff.text_field :name
+    %span.purchase_amount
+      = ff.label :purchase_amount
+      = ff.text_field :purchase_amount
+    %span.purchase_cost
+      = ff.label :purchase_cost
+      = ff.text_field :purchase_cost
   = link_to_remove_fields "remove", f

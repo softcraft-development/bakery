@@ -40,25 +40,86 @@ class RecipeTest < ActiveSupport::TestCase
   def test_destroy_ingredients
     recipe = Factory.create(:recipe)
     ingredient = Factory.create(:ingredient, :recipe => recipe)
+    recipe.reload
     assert Ingredient.exists? ingredient.id
+    assert_equal recipe, ingredient.recipe
+    assert_equal ingredient, recipe.ingredients[0]
     recipe.destroy
     assert !Ingredient.exists?(ingredient.id)
   end
   
   def test_accept_nested_ingredients
+    user = Factory.create(:user)
     params = { 
       :name => "test_accept_nested_ingredients",
       :yield => Factory.next(:prime),
-      :user => Factory.create(:user),
+      :user => user,
       :ingredients_attributes => [
-        {:amount => "#{Factory.next(:prime)} pound", :name => "flour"},
-        {:amount => "#{Factory.next(:prime)} pound", :name => "sugar"},
-        {:amount => "#{Factory.next(:prime)} pound", :name => "eggs"},
-        {:amount => "#{Factory.next(:prime)} pound", :name => "butter"},
+        ingredient_parameters("flour", user),
+        ingredient_parameters("sugar", user),
+        ingredient_parameters("eggs", user),
+        ingredient_parameters("butter", user),
       ]
     }
     recipe = Recipe.create(params)
     assert_equal 4, recipe.ingredients.size
+    recipe.ingredients.each do |ingredient|
+      assert !ingredient.new_record?
+      assert_not_nil ingredient.food
+      assert !ingredient.food.new_record?
+    end
+  end
+  
+  def test_update_attributes_recipe
+    recipe = Factory.create(:recipe)
+    new_name = "test_update_attributes_recipe"
+    params = {
+      :name => new_name
+    }
+    recipe.update_attributes(params)
+    assert_equal new_name, recipe.name
+  end
+  
+  def test_update_attributes_ingredients
+    ingredient = Factory.create(:ingredient)
+    ingredient = Ingredient.find(ingredient.id)
+    recipe = ingredient.recipe
+    original_amount = ingredient.amount.unit
+    target_amount = original_amount.unit * 3
+    params = ingredient.get_update_parameters(target_amount)
+    recipe.ingredients.to_s
+    recipe.update_attributes(params)
+    ingredient = Ingredient.find(ingredient.id)
+    recipe = ingredient.recipe
+    assert_equal target_amount, ingredient.amount.unit
+  end
+  
+  def test_pushes_user_to_foods
+    params = { 
+      :name => "test_pushes_user_to_foods",
+      :yield => Factory.next(:prime),
+      :user => Factory.create(:user),
+      :ingredients_attributes => [
+        {
+            :amount => "#{Factory.next(:prime)} pound", 
+            :food_attributes => {
+              :name => "test_pushes_user_to_foods",
+            } 
+        }
+      ]
+    }
+    recipe = Recipe.create(params)
+    assert_equal recipe.user, recipe.ingredients.first.food.user
+  end
+  
+  def ingredient_parameters(food_name, user)
+    return {
+        :amount => "#{Factory.next(:prime)} pound", 
+        :food_attributes => {
+          :name => food_name,
+          :user => user
+        } 
+    }
   end
   
   def test_yield_string_no_decimals
@@ -245,7 +306,7 @@ class RecipeTest < ActiveSupport::TestCase
 
   def test_recipe_cost_unknown
     recipe = Factory.build(:costable_recipe)
-    recipe.ingredients.first.purchase_cost = nil
+    recipe.ingredients.first.food.purchase_cost = nil
     assert_equal nil, recipe.cost
   end
   
@@ -257,7 +318,36 @@ class RecipeTest < ActiveSupport::TestCase
 
   def test_recipe_unit_cost_unknown
     recipe = Factory.build(:costable_recipe)
-    recipe.ingredients.first.purchase_cost = nil
+    recipe.ingredients.first.food.purchase_cost = nil
     assert_equal nil, recipe.unit_cost
   end  
+  
+  def test_recipe_ingredient_loading_with_callback
+    recipe = Recipe.new({
+      :name => "Test Recipe",
+      :user => Factory.create(:user),
+      :yield => Factory.next(:prime)
+    })
+    recipe.save!
+    assert_equal [], recipe.ingredients
+
+    ingredient = Ingredient.new({
+      :food => Factory.create(:food),
+      :amount => Factory.next(:prime)
+    })
+    ingredient.recipe = recipe
+    ingredient.save!
+    # ingredient.recipe = recipe
+    # recipe.ingredients << ingredient
+    # recipe.save!
+    # recipe.reload
+    recipe = Recipe.find(recipe.id)
+    recipe.ingredients.to_s
+    # assert_equal [ingredient], recipe.ingredients
+
+    target_amount = ingredient.amount.unit * 3
+    params = ingredient.get_update_parameters(target_amount)
+    recipe.update_attributes(params)
+    assert_equal target_amount, recipe.ingredients[0].amount.unit
+  end
 end

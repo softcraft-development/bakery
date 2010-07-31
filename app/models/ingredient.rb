@@ -1,8 +1,11 @@
 class Ingredient < ActiveRecord::Base
-  belongs_to :recipe  
+  belongs_to :recipe
+  belongs_to :food
+  accepts_nested_attributes_for :food
+  attr_accessible :amount, :sort_order, :food_attributes
   # TODO: Re-enable something like this that works
   # validates :recipe, :presence => true
-  validates :name, :presence => true
+  # validates :food, :presence => true
   validates :amount, :presence => true, :unit => true
   validates :sort_order, :presence => true, :numericality => true
   default_scope :order => "sort_order"
@@ -16,12 +19,8 @@ class Ingredient < ActiveRecord::Base
     return scaled
   end
   
-  def cost    
-    return nil unless purchase_amount && purchase_cost
-    return nil unless amount.unit.compatible_with? purchase_amount.unit
-    return 0 if purchase_amount.unit.zero?
-    purch = purchase_amount.unit
-    return (amount.unit.to(purch) / purch) * purchase_cost
+  def cost
+    return food.cost(self.amount)
   end
 end
 

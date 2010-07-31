@@ -65,9 +65,9 @@ class RecipesControllerTest < ActionController::TestCase
   def test_create_with_ingredients
     params = 
     post :create, :recipe => Factory.attributes_for(:recipe).merge({
-      :ingredients_attributes => {
-        "0"=>Factory.attributes_for(:ingredient)
-      }})
+      :ingredients_attributes => 
+        [Factory.attributes_for(:ingredient)]
+      })
     recipe = assigns(:recipe)
     assert_not_nil recipe.ingredients[0].id
   end
@@ -92,23 +92,73 @@ class RecipesControllerTest < ActionController::TestCase
     assert_redirected_to recipe_url(assigns(:recipe))
   end
   
-  def test_update_nested
-    ingredient = Factory.create(:ingredient)
+  # def test_update_nested
+  #     ingredient = Factory.create(:ingredient)
+  #     put :update, 
+  #       :id=>ingredient.recipe.friendly_id,
+  #       :recipe=> { 
+  #         :name=> ingredient.recipe.name,
+  #         :ingredients_attributes=>{
+  #             "0"=>{
+  #                 # :name=>ingredient.name,
+  #                 :amount=>ingredient.amount,
+  #                 :"id"=>ingredient.id,
+  #                 :food_id => ingredient.food.id,
+  #                 :_destroy=>"1"
+  #             }
+  #         }
+  #       }
+  #     recipe = Recipe.find(ingredient.recipe.id)
+  #     assert_equal 0, recipe.ingredients.size
+  #   end
+  
+  def test_update_name
+    recipe = Factory.create(:recipe)
     put :update, 
-      :id=>ingredient.recipe.friendly_id,
-      :recipe=> { 
-        :name=> ingredient.recipe.name,
-        :ingredients_attributes=>{
-            "0"=>{
-                :name=>ingredient.name,
-                :amount=>ingredient.amount,
-                :"id"=>ingredient.id,
-                :_destroy=>"1"
-            }
-        }
-      }
-    recipe = Recipe.find(ingredient.recipe.id)
-    assert_equal 0, recipe.ingredients.size
+    :id => recipe.id,
+    :recipe => {
+      :name => "test_update new name"
+    }
+    recipe.reload
+    assert_equal "test_update new name", recipe.name
+  end
+  
+  def test_update_success
+    ingredient = Factory.create(:ingredient)
+    recipe = ingredient.recipe
+    original_amount = ingredient.amount
+    
+    params = {
+      :ingredient_attributes => [ {
+        :id => ingredient.id,
+        :amount => original_amount * 3
+      } ]
+    }
+    
+    put :update, 
+      :id => recipe.id,
+      :recipe => params
+
+    assert_redirected_to :controller => "recipes", :action => "show", :id => recipe.friendly_id
+  end
+  
+  def test_update_nested
+    # ingredient = Factory.create(:ingredient)
+    # recipe = ingredient.recipe
+    recipe = Recipe.create(:name=>"test recipe", :yield => "1", :user => Factory.create(:user))
+    ingredient = Ingredient.create(:food => Factory.create(:food), :amount => 11, :recipe => recipe)
+    recipe.ingredients << ingredient
+
+    original_amount = ingredient.amount.unit
+    target_amount = original_amount.unit * 3
+    
+    params = ingredient.get_update_parameters(target_amount)
+            
+    put :update, 
+      :id => recipe.id,
+      :recipe => params
+    recipe.reload
+    assert_equal target_amount, recipe.ingredients[0].amount.unit
   end
   
   def test_destroy

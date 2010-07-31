@@ -33,7 +33,7 @@ class IngredientsControllerTest < ActionController::TestCase
     target = Factory.build(:ingredient)
     post :create, 
       :recipe_id => Factory.create(:recipe).id, 
-      :ingredient => {:name => target.name, :amount => target.amount}
+      :ingredient => target.attributes
     assert_redirected_to ingredient_url(assigns(:ingredient))
   end
   

@@ -1,9 +1,11 @@
 class Recipe < ActiveRecord::Base
   has_many :ingredients, :dependent => :destroy
+  accepts_nested_attributes_for :ingredients, :reject_if => lambda { |a| a[:amount].blank? }, :allow_destroy => true
+  attr_accessible :name, :yield, :yield_size, :ingredients_attributes, :user
   belongs_to :user
-  accepts_nested_attributes_for :ingredients, :reject_if => lambda { |a| a[:name].blank? || a[:amount].blank? }, :allow_destroy => true
   has_friendly_id :name, :use_slug => true
   validates_presence_of :name
+  before_validation :push_user_to_ingredients
   
   def yield_string
     "%.1d" % self.yield
@@ -69,5 +71,11 @@ class Recipe < ActiveRecord::Base
     return nil if total_cost == nil
     return nil unless self.yield
     return total_cost / self.yield
+  end
+  
+  def push_user_to_ingredients()
+    ingredients.each do |ingredient|
+       ingredient.food.user ||= user if ingredient.food
+    end
   end
 end
