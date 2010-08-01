@@ -87,7 +87,7 @@ class RecipeTest < ActiveSupport::TestCase
     original_amount = ingredient.amount.unit
     target_amount = original_amount.unit * 3
     params = ingredient.get_update_parameters(target_amount)
-    recipe.ingredients.to_s
+    # recipe.ingredients.to_s
     recipe.update_attributes(params)
     ingredient = Ingredient.find(ingredient.id)
     recipe = ingredient.recipe
@@ -342,7 +342,7 @@ class RecipeTest < ActiveSupport::TestCase
     # recipe.save!
     # recipe.reload
     recipe = Recipe.find(recipe.id)
-    recipe.ingredients.to_s
+    # recipe.ingredients.to_s
     # assert_equal [ingredient], recipe.ingredients
 
     target_amount = ingredient.amount.unit * 3
