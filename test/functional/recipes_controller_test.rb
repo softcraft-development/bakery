@@ -1,9 +1,34 @@
 require 'test_helper'
 
 class RecipesControllerTest < ActionController::TestCase
+
   def setup
     sign_in Factory.create(:user)
   end
+
+  context "A recipe" do
+    context "with an ingredient" do 
+      setup do
+        @ingredient = Factory.create(:ingredient)
+        @recipe = @ingredient.recipe
+      end
+      
+      context "with a food with a blank purchase amount" do
+        setup do
+          @ingredient.food.purchase_amount = ""
+          @ingredient.save!
+        end
+        context "when shown" do
+          setup do
+            get :show, :id => @recipe.id
+          end
+          should respond_with :success        
+        end
+      end
+    end    
+    
+  end 
+
   
   def test_index_template
     get :index

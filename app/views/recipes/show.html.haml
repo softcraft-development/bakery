@@ -38,7 +38,7 @@
                 = dollars(ingredient.food.purchase_cost)
               for
               %span.purchase_amount
-                = ingredient.food.purchase_amount ? ingredient.food.purchase_amount.unit : "N/A"
+                = ingredient.food.purchase_amount.blank? ? "N/A" : ingredient.food.purchase_amount.unit
               )
               \= 
             %td.cost
