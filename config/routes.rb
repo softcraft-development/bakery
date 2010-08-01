@@ -1,4 +1,4 @@
-Bakery::Application.routes.draw do |map|
+Bakery::Application.routes.draw do
   devise_for :users
 
   resources :recipes do
