@@ -4,7 +4,8 @@ require 'rails/test_help'
 require 'factory_girl'
 require 'pp'
 require 'assertions'
-require 'terminator'
+# TODO: Reenable once working
+# require 'terminator'
 # TODO: Reenable for Shoulda on Rails 3
 # require "shoulda"
 

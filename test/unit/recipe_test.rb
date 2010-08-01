@@ -178,24 +178,24 @@ class RecipeTest < ActiveSupport::TestCase
     assert_equal 1, recipe.ingredients.size
   end
   
-  def test_scaleable_recipe_ingredients_does_not_infinite_loop
-    recipe = Factory.build(:scalable_recipe)
-    has_any = false
-    assert_completes_in 4 do
-      recipe.ingredients.each { |ingredient|
-        assert ingredient
-        has_any = true
-      }
-    end
-    assert has_any, :message => " Was not able to get ingredients."
-  end
-  
-  def test_scale_does_not_infinite_loop
-    recipe = Factory.build(:scalable_recipe)
-    assert_completes_in 4 do
-      recipe.scale(Factory.next(:prime))
-    end
-  end
+  # def test_scaleable_recipe_ingredients_does_not_infinite_loop
+  #   recipe = Factory.build(:scalable_recipe)
+  #   has_any = false
+  #   assert_completes_in 4 do
+  #     recipe.ingredients.each { |ingredient|
+  #       assert ingredient
+  #       has_any = true
+  #     }
+  #   end
+  #   assert has_any, :message => " Was not able to get ingredients."
+  # end
+  # 
+  # def test_scale_does_not_infinite_loop
+  #   recipe = Factory.build(:scalable_recipe)
+  #   assert_completes_in 4 do
+  #     recipe.scale(Factory.next(:prime))
+  #   end
+  # end
   
   def test_scale_results_frozen
     recipe = Factory.build(:scalable_recipe)
