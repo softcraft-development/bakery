@@ -1,7 +1,7 @@
 class Recipe < ActiveRecord::Base
   has_many :ingredients, :dependent => :destroy
   accepts_nested_attributes_for :ingredients, :reject_if => lambda { |a| a[:amount].blank? }, :allow_destroy => true
-  attr_accessible :name, :yield, :yield_size, :ingredients_attributes, :user
+  attr_accessible :name, :yield, :yield_size, :yield_string, :ingredients_attributes, :user
   belongs_to :user
   has_friendly_id :name, :use_slug => true
   validates_presence_of :name
