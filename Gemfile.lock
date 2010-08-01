@@ -82,6 +82,7 @@ GEM
     rake (0.8.7)
     redgreen (1.2.2)
     ruby-units (1.1.5)
+    shoulda (2.11.1)
     sqlite3-ruby (1.3.1)
     thor (0.14.0)
     treetop (1.4.8)
@@ -107,4 +108,5 @@ DEPENDENCIES
   rails (= 3.0.0.rc)
   redgreen
   ruby-units
+  shoulda
   sqlite3-ruby

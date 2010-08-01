@@ -4,10 +4,9 @@ require 'rails/test_help'
 require 'factory_girl'
 require 'pp'
 require 'assertions'
+require "shoulda"
 # TODO: Reenable once working
 # require 'terminator'
-# TODO: Reenable for Shoulda on Rails 3
-# require "shoulda"
 
 class Factory
   def has_many(collection)

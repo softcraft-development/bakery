@@ -37,8 +37,7 @@ group :test do
   gem "redgreen"
   # TODO: Reneable terminator; it's breaking in Rails 3 RC1
   # gem "terminator"
-  # TODO: reenable shoulda once it's working with Rails 3
-  # gem "shoulda"
+  gem "shoulda"
   gem "mocha"
   gem "factory_girl_rails"
 end
