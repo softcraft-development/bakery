@@ -25,10 +25,21 @@ class RecipesControllerTest < ActionController::TestCase
           should respond_with :success        
         end
       end
-    end    
-    
+      
+      context "when scaled" do
+        context "to a blank yield size" do
+          setup do
+            get :show, :id => @recipe.id, :yield => 1, :yield_size => ""
+          end
+          
+          should "flash an error message" do
+            assert flash[:error]
+          end
+          should respond_with :success
+        end        
+      end
+    end
   end 
-
   
   def test_index_template
     get :index

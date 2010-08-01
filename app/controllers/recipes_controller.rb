@@ -8,9 +8,13 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find(params[:id])
     recipe_yield = params[:yield]
-    unless recipe_yield.nil? 
-      @recipe = @recipe.scale(recipe_yield, params[:yield_size]) 
-      @scaled = true
+    unless recipe_yield.blank? 
+      if params[:yield_size].blank?
+        flash[:error] = "How big are your new serving sizes? We need to know before we can show you the recipe."
+      elsif
+        @recipe = @recipe.scale(recipe_yield, params[:yield_size]) 
+        @scaled = true
+      end
     end
   end
   
