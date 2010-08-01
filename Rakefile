@@ -23,25 +23,24 @@ Bakery::Application.load_tasks
 # 
 # rake test:blog_controller
 # => Runs the tests matching /create/ in the BlogControllerTest functional test	
-rule "" do |t|
-  # test:file:method
-  if /test:(.*)(:([^.]+))?$/.match(t.name)
-    arguments = t.name.split(":")[1..-1]
-    file_name = arguments.first
-    test_name = arguments[1..-1] 
-    
-    if File.exist?("test/unit/#{file_name}_test.rb")
-      run_file_name = "unit/#{file_name}_test.rb" 
-    elsif File.exist?("test/functional/#{file_name}_controller_test.rb")
-      run_file_name = "functional/#{file_name}_controller_test.rb" 
-    elsif File.exist?("test/functional/#{file_name}_test.rb")
-      run_file_name = "functional/#{file_name}_test.rb" 
-    end
-    
-    sh "ruby -Ilib:test test/#{run_file_name} -n /#{test_name}/" 
-  end
-end
-
+# rule "" do |t|
+#   # test:file:method
+#   if /test:(.*)(:([^.]+))?$/.match(t.name)
+#     arguments = t.name.split(":")[1..-1]
+#     file_name = arguments.first
+#     test_name = arguments[1..-1] 
+#     
+#     if File.exist?("test/unit/#{file_name}_test.rb")
+#       run_file_name = "unit/#{file_name}_test.rb" 
+#     elsif File.exist?("test/functional/#{file_name}_controller_test.rb")
+#       run_file_name = "functional/#{file_name}_controller_test.rb" 
+#     elsif File.exist?("test/functional/#{file_name}_test.rb")
+#       run_file_name = "functional/#{file_name}_test.rb" 
+#     end
+#     
+#     sh "ruby -Ilib:test test/#{run_file_name} -n /#{test_name}/" 
+#   end
+# end
 namespace :sass do
   desc 'Updates stylesheets if necessary from their Sass templates.'
   task :update => :environment do
