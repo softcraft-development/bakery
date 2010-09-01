@@ -19,4 +19,12 @@ module LayoutHelper
   def javascript(*args)
     content_for(:head) { javascript_include_tag(*args) }
   end
+  
+  def jquery_lib_tag
+    if APP_CONFIG[:offline_mode]
+      javascript_include_tag "jquery.1.4.2.min.js"
+    else
+      javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
+    end
+  end
 end

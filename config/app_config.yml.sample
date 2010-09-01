@@ -3,7 +3,8 @@ common:
   email_test_from: bakery@softcraft.ca
   email_test_to: test@softcraft.ca
   email_test_subject: Test Email from Bakery
-
+  offline_mode: false
+  
 development:
   domain: localhost:3000
   email_smtp_host: smtp.teksavvy.com
