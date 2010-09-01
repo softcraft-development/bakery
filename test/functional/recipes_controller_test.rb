@@ -42,13 +42,11 @@ class RecipesControllerTest < ActionController::TestCase
       context "when updating the yield_string" do
         setup do
           @target_yield = Factory.next(:prime)
-          p "Target yield: #{@target_yield}"
           put :update, :id => @recipe.id, :recipe => {:yield_string => @target_yield.to_s }
         end
         
         should "have updated the yield" do
           @recipe.reload
-          pp @recipe
           assert_equal @target_yield, @recipe.yield
         end
       end
