@@ -9,7 +9,7 @@
   .ingredients
     %h2 Ingredients
     - for ingredient in @ingredients do
-      = f.fields_for ingredient do |i|
+      = f.fields_for ingredient, :index => nil do |i|
         = render "ingredient_fields", :f => i
     / = link_to_add_fields "Add Ingredient", f, :ingredients
   %p
