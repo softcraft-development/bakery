@@ -1,9 +1,13 @@
 class String
   def try_unit
-    begin
-      self.unit
-    rescue
-      self
+    if blank?
+      nil
+    else
+      begin
+        self.unit
+      rescue
+        self
+      end
     end
   end
 end
