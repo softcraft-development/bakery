@@ -27,4 +27,13 @@ module LayoutHelper
       javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
     end
   end
+  
+  def jquery_ui_lib_tags
+    if APP_CONFIG[:offline_mode]
+      js = javascript_include_tag "jquery-ui-1.8.4.custom.min.js"
+    else
+      js = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"
+    end
+    return js + stylesheet_link_tag("smoothness/jquery-ui-1.8.4.custom.css")
+  end
 end
