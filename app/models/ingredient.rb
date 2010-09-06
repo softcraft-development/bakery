@@ -24,5 +24,11 @@ class Ingredient < ActiveRecord::Base
   def cost
     return food.cost(self.amount)
   end
+  
+  def self.empty
+    i = Ingredient.new
+    i.food = Food.new
+    return i
+  end
 end
 
