@@ -49,6 +49,10 @@ class ActiveSupport::TestCase
     f.name "A Factory Food"
   end
   
+  Factory.define :user_food, :parent => :food do |f|
+    f.association :user, :factory => :user
+  end
+  
   Factory.define :costable_food, :parent => :food do |f|
     f.purchase_amount {"#{Factory.next(:prime)} g"}
     f.purchase_cost {Factory.next(:prime)}    

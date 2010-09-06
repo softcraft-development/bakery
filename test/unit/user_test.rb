@@ -89,4 +89,12 @@ class UserTest < ActiveSupport::TestCase
     user = recipe.user
     assert_equal [recipe], user.recipes
   end
+  
+  def test_foods
+    food = Factory.create(:user_food)
+    user = food.user
+    for_user = user.foods
+        
+    assert for_user.include?(food)
+  end  
 end
