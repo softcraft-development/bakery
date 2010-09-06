@@ -11,7 +11,11 @@ module ApplicationHelper
     link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
   end
   
-  def dollars(value, on_nil = "$N/A")
-    value == nil ? on_nil : number_to_currency(value)
+  def dollars(value, on_blank = "$N/A")
+    na(value, on_blank)
+  end
+  
+  def na(value, on_blank = "N/A")
+    value.blank? ? on_blank : value
   end
 end
