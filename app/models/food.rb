@@ -3,8 +3,8 @@ class Food < ActiveRecord::Base
   belongs_to :user
   has_many :ingredients, :dependent => :destroy
   
-  scope :for_user, lambda {
-    where("foods.user")
+  scope :with_name, lambda {|name|
+    where("foods.name = ?", name)
   }
 
   def cost(amount)
