@@ -24,5 +24,16 @@ class Ingredient < ActiveRecord::Base
   def cost
     return food.cost(self.amount)
   end
+  
+  def to_ingredient_selector
+    selector = IngredientSelector.new
+    selector.ingredient = self
+    selector.recipe = self.recipe
+    selector.food = self.food
+    selector.user = (self.recipe.user if self.recipe) or (self.food.user if self.food)
+    selector.food_name = self.food.name if self.food
+    selector.amount = self.amount
+    return selector
+  end
 end
 

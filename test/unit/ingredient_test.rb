@@ -109,4 +109,46 @@ class IngredientTest < ActiveSupport::TestCase
     assert_equal 1, recipe.ingredients.size
     assert_equal ingredient, recipe.ingredients[0]
   end
+  
+  def test_to_ingredient_selector_same_ingredient
+    ingredient = Factory.create(:ingredient)
+    selector = ingredient.to_ingredient_selector
+    
+    assert_equal ingredient, selector.ingredient
+  end
+  
+  def test_to_ingredient_selector_same_amount
+    ingredient = Factory.create(:ingredient)
+    selector = ingredient.to_ingredient_selector
+    
+    assert_equal ingredient.amount, selector.amount
+  end
+  
+  def test_to_ingredient_selector_same_recipe
+    ingredient = Factory.create(:ingredient)
+    selector = ingredient.to_ingredient_selector
+    
+    assert_equal ingredient.recipe, selector.recipe
+  end
+  
+  def test_to_ingredient_selector_same_food
+    ingredient = Factory.create(:ingredient)
+    selector = ingredient.to_ingredient_selector
+    
+    assert_equal ingredient.food, selector.food
+  end
+  
+  def test_to_ingredient_selector_same_user
+    ingredient = Factory.create(:ingredient)
+    selector = ingredient.to_ingredient_selector
+    
+    assert_equal ingredient.recipe.user, selector.user
+  end
+  
+  def test_to_ingredient_selector_same_food_name
+    ingredient = Factory.create(:ingredient)
+    selector = ingredient.to_ingredient_selector
+    
+    assert_equal ingredient.food.name, selector.food_name
+  end
 end
