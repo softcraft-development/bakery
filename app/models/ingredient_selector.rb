@@ -1,4 +1,6 @@
 class IngredientSelector
+  extend ActiveModel::Naming
+  
   attr_accessor :amount, :food_name, :recipe, :food, :ingredient, :user
   
   def food_for_name

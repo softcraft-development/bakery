@@ -78,4 +78,8 @@ class Recipe < ActiveRecord::Base
        ingredient.food.user ||= user if ingredient.food
     end
   end
+  
+  def ingredient_selectors
+    ingredients.map { |i| i.to_ingredient_selector }
+  end
 end

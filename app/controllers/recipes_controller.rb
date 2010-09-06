@@ -20,6 +20,7 @@ class RecipesController < ApplicationController
   
   def new
     @recipe = Recipe.new
+    @ingredients = [IngredientSelector.new]
   end
   
   def create
@@ -35,6 +36,7 @@ class RecipesController < ApplicationController
   
   def edit
     @recipe = Recipe.find(params[:id])
+    @ingredients = @recipe.ingredient_selectors << IngredientSelector.new
   end
   
   def update

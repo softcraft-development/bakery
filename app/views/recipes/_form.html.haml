@@ -8,8 +8,9 @@
     This recipe makes #{f.text_field :yield_string} servings. Each serving is #{f.text_field :yield_size} big.
   .ingredients
     %h2 Ingredients
-    = f.fields_for :ingredients do |i|
-      = render "ingredient_fields", :f => i
-    = link_to_add_fields "Add Ingredient", f, :ingredients
+    - for ingredient in @ingredients do
+      = f.fields_for ingredient do |i|
+        = render "ingredient_fields", :f => i
+    / = link_to_add_fields "Add Ingredient", f, :ingredients
   %p
     = f.submit
