@@ -10,9 +10,6 @@
     %h2 Ingredients
     = f.fields_for :ingredients do |i|
       = render "ingredient_fields", :f => i
-    .new
-      = f.fields_for Ingredient.empty, :index => nil do |i|
-        = render "ingredient_fields", :f => i
     = link_to_add_fields "Add Ingredient", f, :ingredients
   %p
     = f.submit

@@ -3,6 +3,7 @@
     = f.label :amount
     = f.text_field :amount
   = f.fields_for :food do |ff|
+    = ff.hidden_field :id
     %span.name
       = ff.label :name
       = ff.text_field :name
