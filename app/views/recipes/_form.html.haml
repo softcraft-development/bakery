@@ -1,3 +1,16 @@
+:javascript
+  $(document).ready(function(){
+    var ingredients = #{current_user_foods_autocomplete.to_json};
+    $('.ingredient .name input').autocomplete({
+      source: ingredients,
+       select: function(event, ui) {
+         var ingredientElement = $(this).parent().parent();
+         ingredientElement.find(".purchase_amount .value").text(ui.item.purchase_amount);
+         ingredientElement.find(".purchase_cost .value").text(ui.item.purchase_cost);
+       }
+    });
+  });
+
 = form_for @recipe, :html => { :class => "recipe_form"} do |f|
   = f.error_messages
   %p

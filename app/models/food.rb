@@ -14,4 +14,13 @@ class Food < ActiveRecord::Base
     return 0 if purch.zero?
     return (amount.unit.to(purch) / purch) * purchase_cost
   end
+  
+  def autocomplete_properties
+    { 
+      :id => self.id, 
+      :label => self.name, 
+      :purchase_amount => self.purchase_amount.to_nil,
+      :purchase_cost => self.purchase_cost
+    }
+  end
 end
