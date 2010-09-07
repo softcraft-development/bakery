@@ -120,11 +120,6 @@ class RecipesControllerTest < ActionController::TestCase
     assert_not_nil recipe.ingredients[0].id
   end
   
-  def test_edit
-    get :edit, :id => Factory.create(:recipe)
-    assert_template 'edit'
-  end
-
   #TODO: reenable this once we can figure out how to remove any_instance  
   # def test_update_invalid
   #   recipe = Factory.create(:recipe)

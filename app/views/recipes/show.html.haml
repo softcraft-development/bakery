@@ -56,8 +56,6 @@
             Cost per Serving
           %th.cost
             = dollars(@recipe.unit_cost)
-    = link_to "Edit", edit_recipe_path(@recipe)
-    |
     = link_to "Destroy", @recipe, :confirm => 'Are you sure?', :method => :delete
     |
     = link_to "View All", recipes_path

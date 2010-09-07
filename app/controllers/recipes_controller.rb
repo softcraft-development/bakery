@@ -7,6 +7,8 @@ class RecipesController < ApplicationController
   
   def show
     @recipe = Recipe.find(params[:id])
+    @recipe.ingredients.build.build_food
+
     recipe_yield = params[:yield]
     unless recipe_yield.blank? 
       if params[:yield_size].blank?
@@ -31,11 +33,6 @@ class RecipesController < ApplicationController
     else
       render :action => 'new'
     end
-  end
-  
-  def edit
-    @recipe = Recipe.find(params[:id])
-    @recipe.ingredients.build.build_food
   end
   
   def update

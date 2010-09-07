@@ -7,7 +7,6 @@
     %tr
       %td= recipe.name
       %td= link_to 'Show', recipe
-      %td= link_to 'Edit', edit_recipe_path(recipe)
       %td= link_to 'Destroy', recipe, :confirm => 'Are you sure?', :method => :delete
 
 %p= link_to "New Recipe", new_recipe_path

@@ -1,8 +1,8 @@
 Bakery::Application.routes.draw do
   devise_for :users
 
-  resources :recipes do
-    resources :ingredients, :only => [:index, :new, :create]    
+  resources :recipes, :only => [:index, :show, :new, :create, :update, :destroy] do
+    resources :ingredients, :only => [:index, :new, :create]
   end
   resources :ingredients, :only => [:show, :edit, :update, :destroy]
   resource :site, :only => [:show] do
