@@ -1,6 +1,9 @@
 require 'test_helper'
+require 'application_helper'
 
 class RecipesHelperTest < ActionView::TestCase
+  include ApplicationHelper
+  
   def test_food_autocomplete_properties_purchase_amount_nil
     food = Factory.create(:food)
     food.purchase_amount = nil
