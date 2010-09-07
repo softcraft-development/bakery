@@ -5,6 +5,8 @@ require File.expand_path('../application', __FILE__)
 Bakery::Application.initialize!
 require 'ruby_units_extensions'
 require "math_enhancements"
+require "hash_extensions"
+require "string_extensions"
 require 'pp'
 
 Bakery::Application.configure do  
