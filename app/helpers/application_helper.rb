@@ -12,7 +12,7 @@ module ApplicationHelper
   end
   
   def dollars(value, on_blank = "$N/A")
-    na(value, on_blank)
+    value.blank? ? on_blank : number_to_currency(value)
   end
   
   def na(value, on_blank = "N/A")
