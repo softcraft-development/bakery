@@ -13,23 +13,46 @@ function add_fields(link, association, content, handleContent) {
 jQuery.fn.clickToEdit = function(){
   var input = $(this);
   input.hide();
-  var display = $("<span />");
+  
+  var wrapper = $("<span />");
   if ( input.attr("id") !== undefined ){
-    display.attr("id", input.attr("id") + "-display" );
+    wrapper.attr("id", input.attr("id") + "-click-to-edit" );
   }
-  var classes = "input-display";
+
+  var classes = "click-to-edit";
   if ( input.attr("class") !== undefined ){
     classes += " " + input.attr("class");
   }
-  display.addClass(classes)
-  display.attr("title", "Click to Edit");
-  display.text(input.val());
-  input.before(display);
-  input.change(function(){
-    display.text(input.val());
-  });
+  wrapper.addClass(classes)
+  
+  var display = $("<span class='click-to-edit-display' title='Click to Edit'>" + input.val() + "</span>");
+  
+  var cancel = $("<button type='button' class='click-to-edit-cancel' title='Cancel Edit'>Cancel</button>")
+  cancel.css("display", "inline");
+  cancel.hide();
+
   display.click(function(){
     display.hide();
     input.show();
+    cancel.show();
   });
+  
+  cancel.click(function(){
+    input.hide();
+    cancel.hide();
+    display.show();
+    input.val(display.text());
+  });
+  
+  input.change(function(){
+    if ( display.is(":visible") ){
+      display.text(input.val());
+    }
+  });
+  
+  input.wrap(wrapper);
+  input.before(display);
+  input.after(cancel);
+  
+  return wrapper;
 }
