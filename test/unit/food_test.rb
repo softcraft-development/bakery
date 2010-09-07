@@ -65,27 +65,27 @@ class FoodTest < ActiveSupport::TestCase
     assert_equal food.id, food.autocomplete_properties[:id]
   end  
 
-  def test_autocomplete_properties_name
+  def test_autocomplete_properties_label
     food = Factory.build(:food)
-    assert_equal food.name, food.autocomplete_properties[:name]
+    assert_equal food.name, food.autocomplete_properties[:label]
   end  
 
   def test_autocomplete_properties_purchase_amount_nil
     food = Factory.build(:food)
     food.purchase_amount = nil
-    assert_nil, food.autocomplete_properties[:purchase_amount]
+    assert_nil food.autocomplete_properties[:purchase_amount]
   end
   
   def test_autocomplete_properties_purchase_amount_blank
     food = Factory.build(:food)
     food.purchase_amount = ""
-    assert_nil, food.autocomplete_properties[:purchase_amount]
+    assert_nil food.autocomplete_properties[:purchase_amount]
   end
   
   def test_autocomplete_properties_purchase_amount_not_nil
     food = Factory.build(:food)
     food.purchase_amount = nil
-    assert_nil, food.autocomplete_properties[:purchase_amount]
+    assert_nil food.autocomplete_properties[:purchase_amount]
   end  
   
   def test_autocomplete_properties_purchase_cost_nil
