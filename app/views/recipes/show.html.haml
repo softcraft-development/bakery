@@ -6,8 +6,12 @@
   .yield
     %h2
       Yield
-    Makes <span class="yield">#{@recipe.yield_string}</span> servings
-    - if !@recipe.yield_size.nil?
+    :javascript
+      $(document).ready(function(){
+        $("#servings").clickToEdit();
+      });
+    Makes <input id="servings" name="yield readonly" value="#{@recipe.yield_string}" class="yield" /> servings
+    - if !@recipe.yield_size.blank?
       of #{@recipe.yield_size.try_unit} each.
 
     %form.scale{:method => "get", :action=> recipe_path(@recipe)}
