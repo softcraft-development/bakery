@@ -1,7 +1,7 @@
 .ingredient.fields
   %span.amount
     = f.label :amount
-    = f.text_field :amount
+    = 
   = f.fields_for :food do |ff|
     = ff.hidden_field :id
     %span.name

@@ -1,65 +1,70 @@
-- title "Recipe"
 .recipe_show_page.recipe_page
-  %p
-    %strong Name:
-    = @recipe.name
-  .yield
-    %h2
-      Yield
-    :javascript
-      $(document).ready(function(){
-        $("#servings").clickToEdit();
-      });
-    Makes <input id="servings" name="yield readonly" value="#{@recipe.yield_string}" class="yield" /> servings
-    - if !@recipe.yield_size.blank?
-      of #{@recipe.yield_size.try_unit} each.
+  :javascript
+    $(document).ready(function(){
+      $(".yield .servings input").clickToEdit({format: Bakery.na});
+      $(".name h1 input").clickToEdit();
+      $(".ingredients .ingredient .description .amount").clickToEdit({format: Bakery.na});
+      $(".ingredients .ingredient .purchase .amount").clickToEdit({format: Bakery.na});
+      $(".ingredients .ingredient .purchase .cost").clickToEdit({format: Bakery.dollars});
+    });
 
-    %form.scale{:method => "get", :action=> recipe_path(@recipe)}
-      I want to get <input name="yield" value="#{@recipe.yield_string}"/> servings of <input name="yield_size" value="#{@recipe.yield_size.try_unit}"/> each. 
-      %button{type="submit"}
-        Show me the recipe for this amount.
-  
-    - if @scaled
-      %form.reset{:method => "get", :action=> recipe_path(@recipe)}
-        %button{type="submit"}
+  = form_for @recipe, :html => { :class => "recipe_form"} do |r_form|
+    .name
+      %h1
+        = r_form.text_field :name
+    = r_form.error_messages
+
+    .yield
+      %h2
+        Yield
+      .servings    
+        Makes #{r_form.text_field :yield_string} servings
+        / - if !@recipe.yield_size.blank?
+        of #{r_form.text_field :yield_size} each.
+
+      .scale
+        I want to get <input name="scale[yield]" value="#{@recipe.yield_string}"/> servings of <input name="scale[yield_size]" value="#{@recipe.yield_size.try_unit}"/> each. 
+        %button{:type=>"submit", :name=>"scale", :value=>"scale"}
+          Show me the recipe for this amount.
+
+      - if @scaled
+        %button{:type=>"submit", :name=>"scale", :value=>"reset"}
           Show me the original recipe amounts
 
-  .ingredients
-    %h2
-      Ingredients:
-    %table
-      %tbody
-        -for ingredient in @recipe.ingredients
-          %tr
-            %td.description
-              %span.amount
-                = ingredient.amount.try_unit
-              %span.name
-                = ingredient.food.name
-            %td.purchase
-              (
-              %span.purchase_cost
-                = dollars(ingredient.food.purchase_cost)
-              for
-              %span.purchase_amount
-                = na(ingredient.food.purchase_amount.try_unit)
-              )
-              \= 
-            %td.cost
-              = dollars(ingredient.cost)
-      %tfoot
-        %tr.total
-          %th.description
-          %th.purchase
-            Total Recipe Cost
-          %th.cost
-            = dollars(@recipe.cost)
-        %tr.unit_cost
-          %th.description
-          %th.purchase
-            Cost per Serving
-          %th.cost
-            = dollars(@recipe.unit_cost)
-    = link_to "Destroy", @recipe, :confirm => 'Are you sure?', :method => :delete
-    |
-    = link_to "View All", recipes_path
+    .ingredients
+      %h2
+        Ingredients:
+      %table
+        %tbody
+          = r_form.fields_for :ingredients do |i_form|
+            = i_form.fields_for :food do |f_form|
+              %tr.ingredient
+                %td.description
+                  = i_form.text_field :amount, :class => "amount"
+                  %span.name
+                    = f_form.object.name
+                %td.purchase
+                  :plain
+                  (#{ f_form.text_field :purchase_amount, :class => "amount"} 
+                  @ 
+                  #{f_form.text_field :purchase_cost, :class => "cost"}) =
+                %td.cost
+                  = dollars(i_form.object.cost)
+        %tfoot
+          %tr.total
+            %th.description
+            %th.purchase
+              Total Recipe Cost =
+            %th.cost
+              #{dollars(@recipe.cost)}
+          %tr.unit_cost
+            %th.description
+            %th.purchase
+              Cost per Serving =
+            %th.cost
+              #{dollars(@recipe.unit_cost)}
+    #{r_form.submit} or #{link_to "Cancel", recipe_path(@recipe), :class=>"cancel"}
+
+= link_to "Destroy", @recipe, :confirm => 'Are you sure?', :method => :delete
+|
+= link_to "View All", recipes_path

@@ -1,11 +1,41 @@
 @import _rbates.sass
 
+body
+  :line-height 150%
+
 input
   :width 4em
+input[type=button], 
+input[type=checkbox], 
+input[type=file],
+input[type=image], 
+input[type=radio], 
+input[type=reset], 
+input[type=submit]
+  :width auto
 
-.click-to-edit-display
-  :cursor pointer
-  :padding 1px
-  &:hover
-    :border 1px dotted gray
-    :padding 0px
+.click-to-edit
+  .click-to-edit-display
+    :cursor pointer
+    :min-width 0.5em
+    :display inline-block
+    :height 100%
+    :min-height 1em
+    &:hover
+      :border 1px dotted gray
+      :margin -1px
+  input, button
+    :padding
+      :top 0px
+      :bottom 0px
+    :margin
+      :top -3px
+      :bottom -3px
+        
+.recipe_show_page
+  .ingredients
+    .description
+      :width 15em
+    .purchase
+      :text-align right
+      :width 25em

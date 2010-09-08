@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
   
   def show
     @recipe = Recipe.find(params[:id])
-    @recipe.ingredients.build.build_food
+    # @recipe.ingredients.build.build_food
 
     recipe_yield = params[:yield]
     unless recipe_yield.blank? 
@@ -43,7 +43,7 @@ class RecipesController < ApplicationController
       flash[:notice] = "Successfully updated recipe."
       redirect_to @recipe
     else
-      render :action => 'edit'
+      render :action => 'show'
     end
   end
   
