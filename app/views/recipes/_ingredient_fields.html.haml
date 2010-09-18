@@ -1,18 +1,16 @@
-.ingredient.fields
-  %span.amount
-    = f.label :amount
-    = 
-  = f.fields_for :food do |ff|
-    = ff.hidden_field :id
-    %span.name
-      = ff.label :name
-      = ff.text_field :name
-    %span.purchase_amount
-      = ff.label :purchase_amount
-      %span.value
-        = na(ff.object.purchase_amount)
-    %span.purchase_cost
-      = ff.label :purchase_cost
-      %span.value
-        = dollars(ff.object.purchase_cost)
-  = link_to_remove_fields "remove", f
+- new_ingredient ||= false
+= i_form.fields_for :food do |f_form|
+  %tr{:class=> ["ingredient", ( new_ingredient ? "new" : nil) ] }
+    %td.description
+      = i_form.text_field :amount, :class => "amount numeric"
+      %span.name
+        = new_ingredient ? f_form.text_field(:name) : f_form.object.name 
+    %td.purchase
+      :plain
+      (#{ f_form.text_field :purchase_amount, :class => "amount numeric"} 
+      @ 
+      #{f_form.text_field :purchase_cost, :class => "cost numeric"}) =
+    %td.cost
+      = dollars(i_form.object.cost)
+    %td.delete
+      = i_form.check_box :_destroy
