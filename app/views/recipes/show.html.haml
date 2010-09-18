@@ -3,9 +3,9 @@
     $(document).ready(function(){
       $(".yield .servings input").clickToEdit({format: Bakery.na});
       $(".name h1 input").clickToEdit();
-      $(".ingredients .ingredient .description .amount").clickToEdit({format: Bakery.na});
-      $(".ingredients .ingredient .purchase .amount").clickToEdit({format: Bakery.na});
-      $(".ingredients .ingredient .purchase .cost").clickToEdit({format: Bakery.dollars});
+      $(".ingredients .ingredient:not(.new) .description .amount").clickToEdit({format: Bakery.na});
+      $(".ingredients .ingredient:not(.new) .purchase .amount").clickToEdit({format: Bakery.na});
+      $(".ingredients .ingredient:not(.new) .purchase .cost").clickToEdit({format: Bakery.dollars});
     });
 
   = form_for @recipe, :html => { :class => "recipe_form"} do |r_form|
@@ -43,6 +43,23 @@
                   = i_form.text_field :amount, :class => "amount"
                   %span.name
                     = f_form.object.name
+                %td.purchase
+                  :plain
+                  (#{ f_form.text_field :purchase_amount, :class => "amount"} 
+                  @ 
+                  #{f_form.text_field :purchase_cost, :class => "cost"}) =
+                %td.cost
+                  = dollars(i_form.object.cost)
+                %td.delete
+                  = i_form.check_box :_destroy
+          = r_form.fields_for Ingredient.new do |i_form|
+            - i_form.object.food = Food.new
+            = i_form.fields_for :food do |f_form|
+              %tr.ingredient.new
+                %td.description
+                  = i_form.text_field :amount, :class => "amount"
+                  %span.name
+                    = f_form.text_field :name
                 %td.purchase
                   :plain
                   (#{ f_form.text_field :purchase_amount, :class => "amount"} 
