@@ -50,6 +50,8 @@
                   #{f_form.text_field :purchase_cost, :class => "cost"}) =
                 %td.cost
                   = dollars(i_form.object.cost)
+                %td.delete
+                  = i_form.check_box :_destroy
         %tfoot
           %tr.total
             %th.description
@@ -63,6 +65,7 @@
               Cost per Serving =
             %th.cost
               #{dollars(@recipe.unit_cost)}
+            %th.delete
     #{r_form.submit} or #{link_to "Cancel", recipe_path(@recipe), :class=>"cancel"}
 
 = link_to "Destroy", @recipe, :confirm => 'Are you sure?', :method => :delete
