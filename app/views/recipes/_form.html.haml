@@ -11,17 +11,18 @@
     });
   });
 
-
-  %p
-    = f.label :name
+  = form_for @recipe, :html => { :class => "recipe_form"} do |f|
+    = f.error_messages
+    %p
+      = f.label :name
     
-  .yield
-    %h2 Yield
-    This recipe makes #{f.text_field :yield_string} servings. Each serving is #{f.text_field :yield_size} big.
-  .ingredients
-    %h2 Ingredients
-    = f.fields_for :ingredients do |i|
-      = render "ingredient_fields", :f => i
-    = link_to_add_fields "Add Ingredient", f, :ingredients
-  %p
-    = f.submit
+    .yield
+      %h2 Yield
+      This recipe makes # {f.text_field :yield_string} servings. Each serving is # {f.text_field :yield_size} big.
+    .ingredients
+      %h2 Ingredients
+      = f.fields_for :ingredients do |i|
+        = render "ingredient_fields", :f => i
+      = link_to_add_fields "Add Ingredient", f, :ingredients
+    %p
+      = f.submit
