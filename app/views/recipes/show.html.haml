@@ -18,12 +18,11 @@
       %h2
         Yield
       .servings    
-        Makes #{r_form.text_field :yield_string} servings
-        / - if !@recipe.yield_size.blank?
-        of #{r_form.text_field :yield_size} each.
+        Makes #{r_form.text_field :yield_string, :class => "numeric"} servings
+        of #{r_form.text_field :yield_size, :class => "numeric"} each.
 
       .scale
-        I want to get <input name="scale[yield]" value="#{@recipe.yield_string}"/> servings of <input name="scale[yield_size]" value="#{@recipe.yield_size.try_unit}"/> each. 
+        I want to get <input name="scale[yield]" value="#{@recipe.yield_string}" class="numeric"/> servings of <input name="scale[yield_size]" value="#{@recipe.yield_size.try_unit}"  class="numeric"/> each. 
         %button{:type=>"submit", :name=>"scale", :value=>"scale"}
           Show me the recipe for this amount.
 
