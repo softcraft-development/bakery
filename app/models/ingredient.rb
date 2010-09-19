@@ -13,12 +13,8 @@ class Ingredient < ActiveRecord::Base
   default_scope :order => "sort_order"
   
   def scale(scaling_factor)
-    scaled = self.clone
-    scaled.recipe = nil;
-    scaled.id = self.id
-    scaled.amount = self.amount.unit * scaling_factor
-    scaled.freeze
-    return scaled
+    self.amount = self.amount.unit * scaling_factor
+    return self
   end
   
   def cost

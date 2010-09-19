@@ -35,11 +35,7 @@ class Recipe < ActiveRecord::Base
     new_yield ||= self.yield
     new_yield_size ||= self.yield_size
     
-    scaled = Recipe.new
-    scaled.id = self.id
-    scaled.name = self.name
-    scaled.yield_size = new_yield_size
-    scaled.slug = self.slug
+    yield_size = new_yield_size
     
     if new_yield_size.nil?
       scaling_factor = Float(new_yield) / self.yield
@@ -48,14 +44,12 @@ class Recipe < ActiveRecord::Base
     end
     
     self.ingredients.each { |ingredient|      
-      scaled_ingredient = ingredient.scale(scaling_factor)
-      scaled_ingredient.recipe = scaled
-      scaled.ingredients << scaled_ingredient
+      ingredient.scale(scaling_factor)
     }
-    scaled.yield = new_yield
-    
-    scaled.freeze
-    return scaled
+    self.yield = new_yield
+    self.yield_size = new_yield_size
+
+    return self
   end
   
   def cost

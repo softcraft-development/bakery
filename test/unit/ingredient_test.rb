@@ -43,8 +43,9 @@ class IngredientTest < ActiveSupport::TestCase
   def test_scale
     ingredient = Factory.build(:scalable_ingredient)
     target = Factory.next(:prime)
+    old_amount = ingredient.amount
     scaled = ingredient.scale(target)
-    assert_equal ingredient.amount.unit * target, scaled.amount.unit
+    assert_equal old_amount.unit * target, scaled.amount.unit
   end
 
   def test_scaled_cant_be_saved
@@ -55,12 +56,13 @@ class IngredientTest < ActiveSupport::TestCase
     end
   end
 
-  def test_scaled_cant_be_modified
-    scaled = Factory.build(:scalable_ingredient).scale(Factory.next(:prime))
-    assert_raises TypeError do
-      scaled.sort_order = scaled.sort_order + 1
-    end
-  end
+  # No longer applicable; we're mutating the original object now
+  # def test_scaled_cant_be_modified
+  #   scaled = Factory.build(:scalable_ingredient).scale(Factory.next(:prime))
+  #   assert_raises TypeError do
+  #     scaled.sort_order = scaled.sort_order + 1
+  #   end
+  # end
   
   def test_scaled_has_same_food
     ingredient = Factory.build(:scalable_ingredient)
@@ -73,12 +75,13 @@ class IngredientTest < ActiveSupport::TestCase
     scaled = ingredient.scale(Factory.next(:prime))
     assert_equal ingredient.id, scaled.id
   end
-
-  def test_scaled_has_no_recipe
-    ingredient = Factory.build(:scalable_ingredient)
-    scaled = ingredient.scale(Factory.next(:prime))
-    assert_nil scaled.recipe
-  end
+  
+  # No longer applicable; we're now mutating the original
+  # def test_scaled_has_no_recipe
+  #   ingredient = Factory.build(:scalable_ingredient)
+  #   scaled = ingredient.scale(Factory.next(:prime))
+  #   assert_nil scaled.recipe
+  # end
   
   def test_cost
     ingredient = Factory.build(:costable_ingredient)

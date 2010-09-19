@@ -204,12 +204,13 @@ class RecipeTest < ActiveSupport::TestCase
   #     recipe.scale(Factory.next(:prime))
   #   end
   # end
-  
-  def test_scale_results_frozen
-    recipe = Factory.build(:scalable_recipe)
-    scaled = recipe.scale(recipe.yield * Factory.next(:prime))
-    assert scaled.frozen?
-  end
+
+  # No longer applicable; we're mutating the originals
+  # def test_scale_results_frozen
+  #   recipe = Factory.build(:scalable_recipe)
+  #   scaled = recipe.scale(recipe.yield * Factory.next(:prime))
+  #   assert scaled.frozen?
+  # end
 
   def test_scale_yield
     recipe = Factory.build(:scalable_recipe)
@@ -227,8 +228,9 @@ class RecipeTest < ActiveSupport::TestCase
   def test_scale_ingredient_amount
     recipe = Factory.build(:scalable_recipe)
     target= Factory.next(:prime)
+    original_amount = recipe.ingredients.first.amount
     scaled = recipe.scale(recipe.yield * target)
-    assert_equal recipe.ingredients.first.amount.unit * target, scaled.ingredients.first.amount.unit
+    assert_equal original_amount.unit * target, scaled.ingredients.first.amount.unit
   end
   
   def test_scaled_cant_be_saved
@@ -239,12 +241,13 @@ class RecipeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_scaled_cant_be_modified
-    scaled = Factory.build(:scalable_recipe).scale(Factory.next(:prime))
-    assert_raise TypeError do
-      scaled.name = "New Name"
-    end
-  end  
+  # No longer applicable; we're now modifying the original
+  # def test_scaled_cant_be_modified
+  #   scaled = Factory.build(:scalable_recipe).scale(Factory.next(:prime))
+  #   assert_raise TypeError do
+  #     scaled.name = "New Name"
+  #   end
+  # end  
 
   def test_scaled_has_same_name
     recipe = Factory.build(:scalable_recipe)
