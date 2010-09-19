@@ -7,14 +7,12 @@ class RecipesController < ApplicationController
   
   def show
     @recipe = Recipe.find(params[:id])
-    # @recipe.ingredients.build.build_food
-
     recipe_yield = params[:yield]
     unless recipe_yield.blank? 
       if params[:yield_size].blank?
         flash[:error] = "How big are your new serving sizes? We need to know before we can show you the recipe."
       elsif
-        @recipe = @recipe.scale(recipe_yield, params[:yield_size]) 
+        @recipe = @recipe.scale(recipe_yield, params[:yield_size])
         @scaled = true
       end
     end
@@ -37,13 +35,23 @@ class RecipesController < ApplicationController
   
   def update
     @recipe = Recipe.find(params[:id])
-    # @recipe.ingredients.to_s
-    if @recipe.update_attributes(params[:recipe])
-      @recipe = Recipe.find(@recipe.id)
-      flash[:notice] = "Successfully updated recipe."
+    if params[:scale_action] == "scale" 
+      redirect_to recipe_path(@recipe, params[:scale])
+    elsif params[:scale_action] == "reset" 
       redirect_to @recipe
     else
-      render :action => 'show'
+      if params[:save_action] == "copy"
+        params[:recipe][:name] = "#{params[:recipe][:name]} (#{params[:scale][:yield]}@#{params[:scale][:yield_size]})"
+        create
+      else
+        if @recipe.update_attributes(params[:recipe])
+          @recipe = Recipe.find(@recipe.id)
+          flash[:notice] = "Successfully updated recipe."
+          redirect_to @recipe
+        else
+          render :action => 'show'
+        end
+      end
     end
   end
   

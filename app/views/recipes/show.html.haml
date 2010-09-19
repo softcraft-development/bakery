@@ -23,12 +23,11 @@
 
       .scale
         I want to get <input name="scale[yield]" value="#{@recipe.yield_string}" class="numeric"/> servings of <input name="scale[yield_size]" value="#{@recipe.yield_size.try_unit}"  class="numeric"/> each. 
-        %button{:type=>"submit", :name=>"scale", :value=>"scale"}
+        %button{:type=>"submit", :name=>"scale_action", :value=>"scale"}
           Show me the recipe for this amount.
-
-      - if @scaled
-        %button{:type=>"submit", :name=>"scale", :value=>"reset"}
-          Show me the original recipe amounts
+        - if @scaled
+          %button{:type=>"submit", :name=>"scale_action", :value=>"reset"}
+            Show me the original recipe amounts
 
     .ingredients
       %h2
@@ -54,7 +53,15 @@
             %th.cost
               #{dollars(@recipe.unit_cost)}
             %th.delete
-    #{r_form.submit} or #{link_to "Cancel", recipe_path(@recipe), :class=>"cancel"}
+    .save
+      <button type="submit" name="save_action" value="commit">
+      Update the recipe with these amounts
+      </button>#{  @scaled ? ", " : "" }
+      - if @scaled
+        %button{:type=>"submit", :name=>"save_action", :value=>"copy"}
+          Create a new copy of this scaled recipe    
+      or
+      #{link_to "Undo all changes", recipe_path(@recipe), :class=>"cancel"}
 
 = link_to "Destroy", @recipe, :confirm => 'Are you sure?', :method => :delete
 |
