@@ -4,8 +4,18 @@
       $(".yield .servings input").clickToEdit({format: Bakery.na});
       $(".name h1 input").clickToEdit();
       $(".ingredients .ingredient:not(.new) .description .amount").clickToEdit({format: Bakery.na});
-      $(".ingredients .ingredient:not(.new) .purchase .amount").clickToEdit({format: Bakery.na});
-      $(".ingredients .ingredient:not(.new) .purchase .cost").clickToEdit({format: Bakery.dollars});
+      $(".ingredients .ingredient .purchase input.amount").clickToEdit({format: Bakery.na});
+      $(".ingredients .ingredient .purchase input.cost").clickToEdit({format: Bakery.dollars});
+
+      var ingredients = #{current_user_foods_autocomplete.to_json};
+      $('.ingredients .new .name input').autocomplete({
+        source: ingredients,
+         select: function(event, ui) {
+           var ingredientElement = $(this).closest(".new");
+           ingredientElement.find(".purchase .amount").val(ui.item.purchase_amount).change();
+           ingredientElement.find(".purchase .cost").val(ui.item.purchase_cost).change();
+         }
+      });
     });
 
   = form_for @recipe, :html => { :class => "recipe_form"} do |r_form|
